@@ -2,7 +2,7 @@ ARCH=x86_64
 OBJECTS=objects/
 BUILD=build/
 SOURCES=sources/
-INSTALLDIR=~/progRSA/
+INSTALLDIR=/opt/RSAencode/
 
 all: object build main.o rsaCrypter.o rsaDecrypter.o  
 	g++ $(OBJECTS)main.o $(OBJECTS)rsaCrypter.o $(OBJECTS)rsaDecrypter.o -o $(BUILD)rsa.$(ARCH)
