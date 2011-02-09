@@ -1,6 +1,4 @@
 #include "FenPrincipale.h"
-#include "FenApropos.h"
-#include "FenAide.h"
 
 using namespace std;
 
@@ -9,28 +7,28 @@ FenPrincipale::FenPrincipale()
     setWindowTitle("RSA-encoding");
 
     //MENU
-    QMenu *menuFichier = menuBar()->addMenu("&Fichier");
-    QAction *actionQuitter = menuFichier->addAction("&Quitter");
+    QMenu *menuFichier = menuBar()->addMenu(tr("&Fichier"));
+    QAction *actionQuitter = menuFichier->addAction(tr("&Quitter"));
     connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
     actionQuitter->setShortcut(QKeySequence("Ctrl+Q"));
 
-    QMenu *menuAide = menuBar()->addMenu("&Aide");
-    QAction *aide = menuAide->addAction("aide");
+    QMenu *menuAide = menuBar()->addMenu(tr("&Aide"));
+    QAction *aide = menuAide->addAction(tr("aide"));
     connect(aide, SIGNAL(triggered()), this, SLOT(aideFen()));
     aide->setShortcut(QKeySequence("F1"));
-    QAction *aproposSoft = menuAide->addAction("Apropos");
+    QAction *aproposSoft = menuAide->addAction(tr("Apropos"));
     connect(aproposSoft, SIGNAL(triggered()), this, SLOT(aproposSoftware()));
-    QAction *aproposQT = menuAide->addAction("Apropos Qt");
+    QAction *aproposQT = menuAide->addAction(tr("Apropos Qt"));
     connect(aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     //QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
     
     
     //BAR_ETAT
     barreEtat = statusBar();
-    actionQuitter->setStatusTip("Quitte le programme");
-    aproposSoft->setStatusTip("apropos du logiciel");
-    aproposQT->setStatusTip("apropos de Qt");
-
+    actionQuitter->setStatusTip(tr("Quitte le programme"));
+    aproposSoft->setStatusTip(tr("apropos du logiciel"));
+    aproposQT->setStatusTip(tr("apropos de Qt"));
+    aide->setStatusTip(tr("aide du logiciel"));
 
     //ZONECENTRALE
     zoneCentrale = new QWidget;
@@ -41,7 +39,7 @@ FenPrincipale::FenPrincipale()
     page2 = new QWidget;
   
     //Partie crypter
-    crypter = new QPushButton("Crypter", this);
+    crypter = new QPushButton(tr("Crypter"), this);
     crypter->setFont(QFont("Comic Sans MS", 14));
     connect(crypter, SIGNAL(released()), this,SLOT(crypter_show()));
     connect(crypter, SIGNAL(clicked()), this , SLOT(f_cryper()));
@@ -52,10 +50,10 @@ FenPrincipale::FenPrincipale()
     message_crypter = new QTextEdit(this);
     message_crypter->setReadOnly(true);
     
-    enter_cle_e = new QLabel("entrez la clé e : ", this);
-    enter_cle_n = new QLabel("entrez la clé n : ", this);
-    enter_text = new QLabel("entrez le message à crypter : ", this);
-    text_crypte = new QLabel("voici le message crypté : ", this);
+    enter_cle_e = new QLabel(tr("entrez la clé e : "), this);
+    enter_cle_n = new QLabel(tr("entrez la clé n : "), this);
+    enter_text = new QLabel(tr("entrez le message à crypter : "), this);
+    text_crypte = new QLabel(tr("voici le message crypté : "), this);
     
     gbox1 = new  QGridLayout;
     gbox1->addWidget(enter_cle_e, 0, 0);
@@ -69,7 +67,7 @@ FenPrincipale::FenPrincipale()
     gbox1->addWidget(crypter, 4, 1, 1, 2);
         
     //Partie decrypter
-    decrypter = new QPushButton("Décrypter", this);
+    decrypter = new QPushButton(tr("Décrypter"), this);
     decrypter->setFont(QFont("Comic Sans MS", 14));
     decrypter->move(110, 100);
     connect(decrypter, SIGNAL(clicked()), this , SLOT(f_decrypter()));
@@ -81,10 +79,10 @@ FenPrincipale::FenPrincipale()
     message_decrypte = new QTextEdit(this);
     message_decrypte->setReadOnly(true);
     
-    enter_cle_d = new QLabel("entrez la clé d : ", this);
-    enter_cle_n = new QLabel("entrez la clé n : ", this);
-    enter_text = new QLabel("entrez le message crypté : ", this);
-    text_crypte = new QLabel("voici le message decrypté : ", this);
+    enter_cle_d = new QLabel(tr("entrez la clé d : "), this);
+    enter_cle_n = new QLabel(tr("entrez la clé n : "), this);
+    enter_text = new QLabel(tr("entrez le message crypté : "), this);
+    text_crypte = new QLabel(tr("voici le message decrypté : "), this);
     
     gbox2 = new  QGridLayout;
     gbox2->addWidget(enter_cle_d, 0, 0);
@@ -102,8 +100,8 @@ FenPrincipale::FenPrincipale()
     page1->setLayout(gbox1);
     page2->setLayout(gbox2);
     
-    onglets->addTab(page1, "crypter");
-    onglets->addTab(page2, "décrypter");
+    onglets->addTab(page1, tr("crypter"));
+    onglets->addTab(page2, tr("décrypter"));
     
     setCentralWidget(zoneCentrale);
 }
@@ -140,7 +138,7 @@ void FenPrincipale::f_cryper()
     
     catch(...)
     {
-    QMessageBox::warning(this, "erreur", "Un probleme est survenue, vérifiez la clé et que vous avez entrez un texte à crypter !");
+    QMessageBox::warning(this, tr("erreur"), tr("Un probleme est survenue, vérifiez la clé et que vous avez entrez un texte à crypter !"));
     }    
 }
 
@@ -190,28 +188,26 @@ void FenPrincipale::f_decrypter()
     
     catch(...)
     {
-        QMessageBox::warning(this, "erreur", "un probleme vient de se produire il se peut que ce soit: \n \t - vos clés qui sont incorrectes \n \t - votre message crypté qui comporte une erreur (verifier  s'il y a un espace avant ou apres le dernier nombre, si oui: l'enlever)");
+        QMessageBox::warning(this, tr("erreur"), tr("un probleme vient de se produire il se peut que ce soit: \n \t - vos clés qui sont incorrectes \n \t - votre message crypté qui comporte une erreur (verifier  s'il y a un espace avant le premier nombre ou apres le dernier, si oui: l'enlever)"));
     }        
 }
 
 void FenPrincipale::crypter_show()
 {
-    barreEtat->showMessage("Crypte", 2000);
+    barreEtat->showMessage(tr("Crypte"), 2000);
 }
 
 void FenPrincipale::decrypter_show()
 {
-    barreEtat->showMessage("Decrypte", 2000);
+    barreEtat->showMessage(tr("Decrypte"), 2000);
 }
 
 void FenPrincipale::aproposSoftware()
 {
-    FenApropos *fenetreApropos = new FenApropos(this);
-    fenetreApropos->exec();
+    QMessageBox::information(this, tr("Apropos"), tr("<p>Ce programme fut réalisé par Alexandre GAY avec le soutien d'Armand Comparot, de Thomas Mijieux et de Robin PHILIBERT.</p> <p>Les codes sources sont libre et gratuit, vous pouvez les retrouver sur le site à l'addresse <a href='http://protecinfo.redheberg.com'>protecinfo.redheberg</a> .</p> <p>Vous trouverez sur le site une page forum ou vous pourez donner votre avis sur le logiciel.</p> <p>Pour plus d'information n'hésitez pas à nous contacter sur le site ou par mail</p> <p>Merci d'utiliser notre logiciel.</p>"));
 }
 
 void FenPrincipale::aideFen()
 {
-    FenAide *fenetreAide = new FenAide(this);
-    fenetreAide->exec();
+    QMessageBox::information(this,tr("Apropos du logiciel"), tr("<p>Pour utiliser ce logiciel il vous suffit de rentrer les clés public (e, n) et le message secret à transmetre pour crypter un message et de rentrer les clés privé (d, n) et le message crypté pour le décrypter !</p> <p>Si vous n'avez pas de clé, vous pouvez faire des tests en utilisant comme clé public (0, 0) et comme clé prive (0, 0). Ces clé seront automatiquement remplacé par des clés valides.</p> <p>Bonne utilisation !</p>")); 
 }
