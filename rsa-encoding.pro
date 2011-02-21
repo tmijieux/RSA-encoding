@@ -8,7 +8,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += FenPrincipale.h
-SOURCES += FenPrincipale.cpp main.cpp
-TRANSLATIONS += qtprojet_en.ts
+HEADERS += FenRsa-encoding.h
+SOURCES += FenRsa-encoding.cpp main.cpp
+TRANSLATIONS += trRsa-encoding_en.ts
 LIBS += -L/usr/local/lib -lgmpxx -lgmp 

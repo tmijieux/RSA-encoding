@@ -49,35 +49,35 @@ Thank you for using our software.</translation>
     </message>
     <message>
         <source>entrez la cl&#xc3;&#xa9; e : </source>
-        <translation>enter the E key :</translation>
+        <translation>Enter the E key :</translation>
     </message>
     <message>
         <source>entrez la cl&#xc3;&#xa9; n : </source>
-        <translation>enter the N key :</translation>
+        <translation>Enter the N key :</translation>
     </message>
     <message>
         <source>entrez le message &#xc3;&#xa0; crypter : </source>
-        <translation>enter the message to encrypt :</translation>
+        <translation>Enter the message to encrypt :</translation>
     </message>
     <message>
         <source>voici le message crypt&#xc3;&#xa9; : </source>
-        <translation>the encrypted message :</translation>
+        <translation>The encrypted message :</translation>
     </message>
     <message>
         <source>D&#xc3;&#xa9;crypter</source>
-        <translation>decrypt</translation>
+        <translation>Decrypt</translation>
     </message>
     <message>
         <source>entrez la cl&#xc3;&#xa9; d : </source>
-        <translation>enter the D key :</translation>
+        <translation>Enter the D key :</translation>
     </message>
     <message>
         <source>entrez le message crypt&#xc3;&#xa9; : </source>
-        <translation>enter the encrypted message :</translation>
+        <translation>Enter the encrypted message :</translation>
     </message>
     <message>
         <source>voici le message decrypt&#xc3;&#xa9; : </source>
-        <translation>the decrypted message :</translation>
+        <translation>The decrypted message :</translation>
     </message>
     <message>
         <source>crypter</source>
@@ -105,11 +105,11 @@ Thank you for using our software.</translation>
     </message>
     <message>
         <source>Crypte</source>
-        <translation>encrypted</translation>
+        <translation type="obsolete">encrypted</translation>
     </message>
     <message>
         <source>Decrypte</source>
-        <translation>decrypted</translation>
+        <translation type="obsolete">decrypted</translation>
     </message>
     <message>
         <source>&amp;Fichier</source>
@@ -145,7 +145,7 @@ Thank you for using our software.</translation>
     </message>
     <message>
         <source>Apropos du logiciel</source>
-        <translation>About Software</translation>
+        <translation type="obsolete">About Software</translation>
     </message>
     <message>
         <source>&lt;p&gt;Pour utiliser ce logiciel il vous suffit de rentrer les cl&#xc3;&#xa9;s public (e, n) et le message secret &#xc3;&#xa0; transmetre pour crypter un message et de rentrer les cl&#xc3;&#xa9;s priv&#xc3;&#xa9; (d, n) et le message crypt&#xc3;&#xa9; pour le d&#xc3;&#xa9;crypter !&lt;/p&gt; &lt;p&gt;Si vous n&apos;avez pas de cl&#xc3;&#xa9;, vous pouvez faire des tests en utilisant comme cl&#xc3;&#xa9; public (0, 0) et comme cl&#xc3;&#xa9; prive (0, 0). Ces cl&#xc3;&#xa9; seront automatiquement remplac&#xc3;&#xa9; par des cl&#xc3;&#xa9;s valides.&lt;/p&gt; &lt;p&gt;Bonne utilisation !&lt;/p&gt;</source>
@@ -160,6 +160,50 @@ Thank you for using our software.</translation>
 &lt;p&gt;On this website, you can give you your opinion on the software.&lt;/p&gt;
 &lt;p&gt;For more information please contact us on the site or by mail.&lt;/p&gt;
 &lt;p&gt;Thank you for using our software.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&amp;Langues</source>
+        <translation>&amp;Language</translation>
+    </message>
+    <message>
+        <source>traduit le logiciel en anglais</source>
+        <translation>the software is in English</translation>
+    </message>
+    <message>
+        <source>le logiciel est en francais</source>
+        <translation>translate the software in french</translation>
+    </message>
+    <message>
+        <source>Aide</source>
+        <translation>Help</translation>
+    </message>
+    <message>
+        <source>erreur fichier</source>
+        <translation>file error</translation>
+    </message>
+    <message>
+        <source>le fichier lang n&apos;a pas put s&apos;ouvrire en ecriture</source>
+        <translation>the lang file couldn&apos;t open in writing</translation>
+    </message>
+    <message>
+        <source>fichier lang introuvable, la langue par defaut a &#xc3;&#xa9;t&#xc3;&#xa9; g&#xc3;&#xa9;n&#xc3;&#xa9;r&#xc3;&#xa9;</source>
+        <translation>lang file not found, the default language was generated</translation>
+    </message>
+    <message>
+        <source>cryptage en cours</source>
+        <translation>encryption in progress</translation>
+    </message>
+    <message>
+        <source>d&#xc3;&#xa9;cryptage en cours</source>
+        <translation>decryption in progress</translation>
+    </message>
+    <message>
+        <source>Le message a &#xc3;&#xa9;t&#xc3;&#xa9; d&#xc3;&#xa9;crypt&#xc3;&#xa9;</source>
+        <translation>the message was decrypted</translation>
+    </message>
+    <message>
+        <source>Le message a &#xc3;&#xa9;t&#xc3;&#xa9; crypt&#xc3;&#xa9;</source>
+        <translation>the message was encrypted</translation>
     </message>
 </context>
 </TS>

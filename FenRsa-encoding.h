@@ -1,6 +1,6 @@
 #ifndef DEF_FENPRINCIPALE
 #define DEF_FENPRINCIPALE
- 
+
 #include <QApplication>
 #include <QWidget>
 #include <QMainWindow>
@@ -16,17 +16,20 @@
 #include <QTextEdit>
 #include <QString>
 #include <QMessageBox>
+#include <QProgressBar>
 #include <iostream>
 #include <string>
 #include <gmpxx.h>
- 
+#include <QFile>
+#include <QTextStream>
+
 class FenPrincipale : public QMainWindow
 {
     Q_OBJECT
-    
+
     public:
     FenPrincipale();
-    
+
     public slots:
      void f_cryper();
      void f_decrypter();
@@ -34,6 +37,20 @@ class FenPrincipale : public QMainWindow
      void decrypter_show();
      void aproposSoftware();
      void aideFen();
+     void englishTranslate();
+     void frenchTranslate();
+     void checkLang();
+     void fileNotFound();
+     void decrypt_nb();
+     void rmEtatDecrypt();
+     void encrypt_nb();
+     void rmEtatEncrypt();
+
+     signals:
+     void decrypt100();
+     void finDecrypt();
+     void encrypt100();
+     void finEncrypt();
 
     private:
     QWidget *zoneCentrale;
@@ -57,11 +74,22 @@ class FenPrincipale : public QMainWindow
     QTextEdit *message_crypter;
     QTextEdit *message_crypte;
     QTextEdit *message_decrypte;
-    QMenu *menuFichier;
-    QMenu *menuEdition;
-    QMenu *menuAffichage;
     QStatusBar *barreEtat;
+    QAction *checkEnglish;
+    QAction *checkFrench;
+    QAction *actionQuitter;
+    QActionGroup *language;
+    QMenu *menuFichier;
+    QMenu *menuLang;
+    QProgressBar *encrypt_lcd;
+    QProgressBar *decrypt_lcd;
+    QLabel *encrypt_msg;
+    QLabel *decrypt_msg;
+    unsigned int decrypt_bloc;
+    unsigned int decrypt_mot;
+    unsigned int encrypt_bloc;
+    unsigned int encrypt_mot;
 };
- 
+
 #endif
 
