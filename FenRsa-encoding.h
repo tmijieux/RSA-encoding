@@ -1,7 +1,7 @@
 #ifndef DEF_FENPRINCIPALE
 #define DEF_FENPRINCIPALE
 
-#include <QApplication>
+#include <QtGui/QApplication>
 #include <QWidget>
 #include <QMainWindow>
 #include <QMenu>
@@ -31,7 +31,7 @@ class FenPrincipale : public QMainWindow
     FenPrincipale();
 
     public slots:
-     void f_cryper();
+     void f_crypter();
      void f_decrypter();
      void crypter_show();
      void decrypter_show();

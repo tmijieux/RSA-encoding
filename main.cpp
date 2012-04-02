@@ -3,7 +3,7 @@ Ce logiciel fut réaliser par Alexandre GAY avec la colaboration de Thomas MIJIE
 Les sources de ce logiciel sont libre et gratuite.
 Toutes personnes ayant utilisé ce logiciel peut me donner son avis pour l'améliorer ou simplement dire son avis sur le forum du site http://protecinfo.redheberg.com .
 */
-#include <QApplication>
+#include <QtGui/QApplication>
 #include <QFile>
 #include <QTextStream>
 #include <QTranslator>

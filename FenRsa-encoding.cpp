@@ -62,7 +62,7 @@ FenPrincipale::FenPrincipale()
     crypter = new QPushButton(tr("Crypter"), this);
     crypter->setFont(QFont("Comic Sans MS", 14));
     connect(crypter, SIGNAL(released()), this,SLOT(crypter_show()));
-    connect(crypter, SIGNAL(clicked()), this , SLOT(f_cryper()));
+    connect(crypter, SIGNAL(clicked()), this , SLOT(f_crypter()));
     connect(this, SIGNAL(encrypt100()), this, SLOT(encrypt_nb()));
 
     cle_e = new QLineEdit(this);
@@ -133,7 +133,7 @@ FenPrincipale::FenPrincipale()
 }
 
 
-void FenPrincipale::f_cryper()
+void FenPrincipale::f_crypter()
 {
     string message_initial = message_a_crypter->toPlainText().toStdString();
 
@@ -141,7 +141,7 @@ void FenPrincipale::f_cryper()
 
 	try
     {
-	    mpz_class message_crypte1, e(cle_e->text().toStdString()), n(cle_n->text().toStdString()), message_claire;
+	    mpz_class message_crypte1, e(cle_e->text().toStdString()), n(cle_n->text().toStdString()), message_clair;
 
         if (e == 0 && n ==0)
         {
@@ -153,25 +153,25 @@ void FenPrincipale::f_cryper()
 
         encrypt_mot = message_initial.size();
 
-	    for (i=0; i < encrypt_mot; i++)
+	    for (i = 0; i < encrypt_mot; i++)
 	    {
-	    	message_claire =  message_initial[i];
-	    	mpz_powm (message_crypte1.get_mpz_t() , message_claire.get_mpz_t(), e.get_mpz_t(), n.get_mpz_t() );
+	    	message_clair =  message_initial[i];
+	    	mpz_powm (message_crypte1.get_mpz_t() , message_clair.get_mpz_t(), e.get_mpz_t(), n.get_mpz_t() );
             message_crypter->insertPlainText(message_crypte1.get_str().data());
-            
+
             if (i < encrypt_mot - 1)
             message_crypter->insertPlainText(" ");
-    	    
+
     	    emit encrypt100();
     	}
     }
 
     catch(...)
     {
-    QMessageBox::warning(this, tr("erreur"), tr("Un probleme est survenue, vérifiez la clé et que vous avez entrez un texte à crypter !"));
+		QMessageBox::warning(this, tr("erreur"), tr("Un probleme est survenue, vérifiez la clé et que vous avez entrez un texte à crypter !"));
     }
 
-    emit finEncrypt();
+	emit finEncrypt();
 }
 
 void FenPrincipale::f_decrypter()
@@ -183,10 +183,9 @@ void FenPrincipale::f_decrypter()
 	unsigned int i = 0;
 	QString message_final;
 
-
 	try
     {
-	    mpz_class d(cle_d->text().toStdString()), message_claire, message_crypte_caract, n(cle_n2->text().toStdString());
+	    mpz_class d(cle_d->text().toStdString()), message_clair, message_crypte_caract, n(cle_n2->text().toStdString());
 
         if (d == 0 && n ==0)
         {
@@ -211,9 +210,9 @@ void FenPrincipale::f_decrypter()
 	    	message_crypte_caract = message_crypte_entre.substr(0, espace);
 	    	message_crypte_entre.erase(0, (espace + 1));
 
-	    	mpz_powm (message_claire.get_mpz_t(), message_crypte_caract.get_mpz_t(), d.get_mpz_t(), n.get_mpz_t() );
+	    	mpz_powm (message_clair.get_mpz_t(), message_crypte_caract.get_mpz_t(), d.get_mpz_t(), n.get_mpz_t() );
 
-    		message_final = message_claire.get_d();
+    		message_final = message_clair.get_d();
             message_decrypte->insertPlainText(message_final);
             emit decrypt100();
      	}
@@ -227,7 +226,8 @@ void FenPrincipale::f_decrypter()
     emit finDecrypt();
 }
 
-void FenPrincipale::crypter_show()
+void
+FenPrincipale::crypter_show()
 {
     encrypt_bloc = 0;
     encrypt_msg = new QLabel(tr("cryptage en cours"));
@@ -244,7 +244,8 @@ void FenPrincipale::crypter_show()
     connect(this, SIGNAL(finEncrypt()), this, SLOT(rmEtatEncrypt()));
 }
 
-void FenPrincipale::decrypter_show()
+void
+FenPrincipale::decrypter_show()
 {
     decrypt_bloc = 0;
     decrypt_msg = new QLabel(tr("décryptage en cours"));
@@ -261,7 +262,8 @@ void FenPrincipale::decrypter_show()
     connect(this, SIGNAL(finDecrypt()), this, SLOT(rmEtatDecrypt()));
 }
 
-void FenPrincipale::decrypt_nb()
+void
+FenPrincipale::decrypt_nb()
 {
     decrypt_bloc ++;
     int pourCent;
@@ -269,7 +271,8 @@ void FenPrincipale::decrypt_nb()
     decrypt_lcd->setValue(pourCent);
 }
 
-void FenPrincipale::rmEtatDecrypt()
+void
+FenPrincipale::rmEtatDecrypt()
 {
     barreEtat->removeWidget(decrypt_msg);
     barreEtat->removeWidget(decrypt_lcd);
@@ -277,7 +280,8 @@ void FenPrincipale::rmEtatDecrypt()
 }
 
 
-void FenPrincipale::encrypt_nb()
+void
+FenPrincipale::encrypt_nb()
 {
     encrypt_bloc ++;
     int pourCent;
@@ -285,7 +289,8 @@ void FenPrincipale::encrypt_nb()
     encrypt_lcd->setValue(pourCent);
 }
 
-void FenPrincipale::rmEtatEncrypt()
+void
+FenPrincipale::rmEtatEncrypt()
 {
     barreEtat->removeWidget(encrypt_msg);
     barreEtat->removeWidget(encrypt_lcd);
@@ -293,17 +298,20 @@ void FenPrincipale::rmEtatEncrypt()
 }
 
 
-void FenPrincipale::aproposSoftware()
+void
+FenPrincipale::aproposSoftware()
 {
     QMessageBox::information(this, tr("Apropos"), tr("<p>Ce programme fut réalisé par Alexandre GAY avec le soutien d'Armand Comparot, de Thomas Mijieux et de Robin PHILIBERT.</p> <p>Les codes sources sont libre et gratuit, vous pouvez les retrouver sur le site à l'addresse <a href='http://protecinfo.redheberg.com'>protecinfo.redheberg</a> .</p> <p>Vous trouverez sur le site une page forum ou vous pourez donner votre avis sur le logiciel.</p> <p>Pour plus d'information n'hésitez pas à nous contacter sur le site ou par mail</p> <p>Merci d'utiliser notre logiciel.</p>"));
 }
 
-void FenPrincipale::aideFen()
+void
+FenPrincipale::aideFen()
 {
     QMessageBox::information(this,tr("Aide"), tr("<p>Pour utiliser ce logiciel il vous suffit de rentrer les clés public (e, n) et le message secret à transmetre pour crypter un message et de rentrer les clés privé (d, n) et le message crypté pour le décrypter !</p> <p>Si vous n'avez pas de clé, vous pouvez faire des tests en utilisant comme clé public (0, 0) et comme clé prive (0, 0). Ces clé seront automatiquement remplacé par des clés valides.</p> <p>Bonne utilisation !</p>"));
 }
 
-void FenPrincipale::frenchTranslate()
+void
+FenPrincipale::frenchTranslate()
 {
     checkEnglish->setChecked(false);
     checkFrench->setChecked(true);
@@ -329,7 +337,8 @@ void FenPrincipale::frenchTranslate()
     file.close();
 }
 
-void FenPrincipale::englishTranslate()
+void
+FenPrincipale::englishTranslate()
 {
     checkFrench->setChecked(false);
     checkEnglish->setChecked(true);
@@ -355,7 +364,8 @@ void FenPrincipale::englishTranslate()
     file.close();
 }
 
-void FenPrincipale::checkLang()
+void
+FenPrincipale::checkLang()
 {
     QString language;
     QFile file("language");
@@ -379,7 +389,8 @@ void FenPrincipale::checkLang()
     }
 }
 
-void FenPrincipale::fileNotFound()
+void
+FenPrincipale::fileNotFound()
 {
     QString notFound;
     QFile file("language");
