@@ -1,4 +1,4 @@
-using namespace std;
+using namespace std; // inutile?
 
 void FenPrincipale::f_crypter()
 {
