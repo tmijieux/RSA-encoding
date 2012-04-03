@@ -1,6 +1,6 @@
 <!DOCTYPE TS><TS>
 <context>
-    <name>FenAide</name>
+    <name>Aide</name>
     <message>
         <source>Pour utiliser ce logiciel il vous suffit de rentrer les cl&#xc3;&#xa9;s public (e, n) et le message secret &#xc3;&#xa0; transmetre pour crypter un message et de rentrer les cl&#xc3;&#xa9;s priv&#xc3;&#xa9; (d, n) et le message crypt&#xc3;&#xa9; pour le d&#xc3;&#xa9;crypter !
  Si vous n&apos;avez pas de cl&#xc3;&#xa9;, vous pouvez faire des tests en utilisant comme cl&#xc3;&#xa9; public (0, 0) et comme cl&#xc3;&#xa9; prive (0, 0). Ces cl&#xc3;&#xa9; seront automatiquement remplac&#xc3;&#xa9; par des cl&#xc3;&#xa9;s valides. 
@@ -11,7 +11,7 @@ Good use!</translation>
     </message>
 </context>
 <context>
-    <name>FenApropos</name>
+    <name>A propos</name>
     <message>
         <source>Ce programme fut r&#xc3;&#xa9;alis&#xc3;&#xa9; par Alexandre GAY avec le soutien d&apos;Armand Comparot, de Thomas Mijieux et de Robin PHILIBERT. 
  Les codes sources sont libre et gratuit, vous pouvez les retrouver sur le site &#xc3;&#xa0; l&apos;addresse &lt;a href=&apos;http://protecinfo.redheberg.com&apos;&gt;protecinfo.redheberg&lt;/a&gt; . 
@@ -26,17 +26,17 @@ Thank you for using our software.</translation>
     </message>
 </context>
 <context>
-    <name>FenPrincipale</name>
+    <name>Principale</name>
     <message>
         <source>Quitte le programme</source>
         <translation>exit</translation>
     </message>
     <message>
-        <source>apropos du logiciel</source>
+        <source>a propos du logiciel</source>
         <translation>About Software</translation>
     </message>
     <message>
-        <source>apropos de Qt</source>
+        <source>a propos de Qt</source>
         <translation>About Qt</translation>
     </message>
     <message>
@@ -124,15 +124,15 @@ Thank you for using our software.</translation>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <source>aide</source>
+        <source>Aide</source>
         <translation>help</translation>
     </message>
     <message>
-        <source>Apropos</source>
+        <source>A propos</source>
         <translation>About</translation>
     </message>
     <message>
-        <source>Apropos Qt</source>
+        <source>A propos Qt</source>
         <translation>About Qt</translation>
     </message>
     <message>
@@ -144,7 +144,7 @@ Thank you for using our software.</translation>
 <byte value="x9"/>- the encrypted message has an error (check if there are a space before the first number or after the last number, in this case : delete this space)</translation>
     </message>
     <message>
-        <source>Apropos du logiciel</source>
+        <source>A propos du logiciel</source>
         <translation type="obsolete">About Software</translation>
     </message>
     <message>
