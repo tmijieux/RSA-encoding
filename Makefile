@@ -162,7 +162,7 @@ qmake:  FORCE
 
 dist: 
 	@$(CHK_DIR_EXISTS) .tmp/rsa-encoding1.0.0 || $(MKDIR) .tmp/rsa-encoding1.0.0 
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents FenRsa-encoding.h .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents FenRsa-encoding.cpp main.cpp .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents trRsa-encoding_en.ts .tmp/rsa-encoding1.0.0/ && (cd `dirname .tmp/rsa-encoding1.0.0` && $(TAR) rsa-encoding1.0.0.tar rsa-encoding1.0.0 && $(COMPRESS) rsa-encoding1.0.0.tar) && $(MOVE) `dirname .tmp/rsa-encoding1.0.0`/rsa-encoding1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/rsa-encoding1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents FenRsa-encoding.hpp .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents FenRsa-encoding.cpp main.cpp .tmp/rsa-encoding1.0.0/ && $(COPY_FILE) --parents trRsa-encoding_en.ts .tmp/rsa-encoding1.0.0/ && (cd `dirname .tmp/rsa-encoding1.0.0` && $(TAR) rsa-encoding1.0.0.tar rsa-encoding1.0.0 && $(COMPRESS) rsa-encoding1.0.0.tar) && $(MOVE) `dirname .tmp/rsa-encoding1.0.0`/rsa-encoding1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/rsa-encoding1.0.0
 
 
 clean:compiler_clean 
@@ -186,8 +186,8 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 compiler_moc_header_make_all: moc_FenRsa-encoding.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_FenRsa-encoding.cpp
-moc_FenRsa-encoding.cpp: FenRsa-encoding.h
-	/usr/bin/moc $(DEFINES) $(INCPATH) FenRsa-encoding.h -o moc_FenRsa-encoding.cpp
+moc_FenRsa-encoding.cpp: FenRsa-encoding.hpp
+	/usr/bin/moc $(DEFINES) $(INCPATH) FenRsa-encoding.hpp -o moc_FenRsa-encoding.cpp
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
@@ -208,10 +208,10 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-FenRsa-encoding.o: FenRsa-encoding.cpp FenRsa-encoding.h
+FenRsa-encoding.o: FenRsa-encoding.cpp FenRsa-encoding.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FenRsa-encoding.o FenRsa-encoding.cpp
 
-main.o: main.cpp FenRsa-encoding.h
+main.o: main.cpp FenRsa-encoding.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 moc_FenRsa-encoding.o: moc_FenRsa-encoding.cpp 

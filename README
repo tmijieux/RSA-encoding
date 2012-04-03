@@ -1,4 +1,4 @@
-qt4 development header and libraries have to be
+qt4 development headers and libraries have to be
 installed on your computer in order to compile and execute
 the binary.
 
@@ -7,6 +7,6 @@ automoc4 also.
 WARNING: The Makefile was auto-generated and may not work
 with your OS, check the headers directories.
 
-Compile:	make 
-Full Install:	make install
-Cleaning up:	make clean
+Compile: make
+Full Install: make install
+Cleaning up: make clean
