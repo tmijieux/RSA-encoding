@@ -97,9 +97,9 @@ void FenPrincipale::f_cle()
 		i++;
 	} while (tmp > 1);
 
-	for(int i=r.size()-2;  i >= 0; i--)
+	for (i = r.size()-2;  i >= 0; i--)
 	{
-		if (i == r.size()- 2)
+		if (i == (signed) r.size()- 2)
 		{
 			tmp = (r[i-2]*diviseur+1)/r[i-1]; // sans doute prob ici, old: d[i-2]
 			x.push_back(tmp);
