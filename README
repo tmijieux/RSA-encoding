@@ -2,7 +2,7 @@ DEPS:
 qt4
 qconf
 (automoc4)
-
+gmp (gnu multiprecision library)
 
 COMPILE AND INSTALL
 qconf (you may have to run it twice for it to work properly)
