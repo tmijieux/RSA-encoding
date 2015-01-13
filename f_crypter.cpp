@@ -37,7 +37,7 @@ void FenPrincipale::f_crypter()
 							 .get_str().data());
 			if (i < this->encrypt_mot - 1)
 				this->message_crypter->insertPlainText(" ");
-			emit this->encrypt100();
+			emit encrypt100();
 		}
 	}
 
@@ -66,8 +66,8 @@ void FenPrincipale::crypter_show()
 	this->barreEtat->addWidget(this->encrypt_msg);
 	this->barreEtat->addWidget(this->encrypt_lcd);
 
-	connect(this, SIGNAL(this->finEncrypt()), this,
-		SLOT(this->rmEtatEncrypt()));
+	connect(this, SIGNAL(finEncrypt()), this,
+		SLOT(rmEtatEncrypt()));
 }
 
 void FenPrincipale::encrypt_nb()

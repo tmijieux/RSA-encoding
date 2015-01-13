@@ -14,9 +14,9 @@ void FenPrincipale::f_cle()
 		gmp_randseed_ui(rstate, graine);
 
 		if (q == 0)
-			mpz_urandomb(rand_Num,rstate,200);
+			mpz_urandomb(rand_Num, rstate, 200);
 		else
-			mpz_urandomb(rand_Num,rstate,50);
+			mpz_urandomb(rand_Num, rstate, 50);
 
 
 		int reps = 50;
@@ -27,22 +27,21 @@ void FenPrincipale::f_cle()
 			p = tmp;
 			//cout << "p " << rand_Num << endl;
 		}
-
-		else if(mpz_probab_prime_p(rand_Num, reps) != 0 && q == 0 && e == 0)
+		else if (mpz_probab_prime_p(rand_Num, reps) != 0 &&
+			 q == 0 && e == 0)
 		{
 			mpz_class tmp(rand_Num);
 			q = tmp;
 			//cout << "q " << rand_Num << endl;
 		}
-
-		else if(mpz_probab_prime_p(rand_Num, reps) != 0 && q != 0)
+		else if (mpz_probab_prime_p(rand_Num, reps) != 0 && q != 0)
 		{
 			mpz_class tmp(rand_Num);
 			e = tmp;
 			//cout << "e " << rand_Num << endl;
 		}
 
-		graine++;
+		graine ++;
 		gmp_randclear(rstate);
 		mpz_clear(rand_Num);
 	}
@@ -51,9 +50,8 @@ void FenPrincipale::f_cle()
 	n = p*q;
 
 	//cout << endl << "e : " << e << endl << "n : " << n;
-	affiche_cleN->insertPlainText(n.get_str().data());
-	affiche_cleE->insertPlainText(e.get_str().data());
-
+	this->affiche_cleN->insertPlainText(n.get_str().data());
+	this->affiche_cleE->insertPlainText(e.get_str().data());
 
 	// **recherche de D**
 	mpz_class tmp, diviseur, d;
@@ -63,12 +61,11 @@ void FenPrincipale::f_cle()
 	int i2 = 0;
 	int alt1 = -1;
 
-
 	do
 	{
 		mpz_t r_tmp;
 		mpz_init(r_tmp);
-
+		
 		if (i == 0)
 		{
 			mpz_mod(r_tmp, c.get_mpz_t() ,e.get_mpz_t());
@@ -84,24 +81,24 @@ void FenPrincipale::f_cle()
 			r.push_back(r_tmp2);
 			diviseur = ((e-r[1])/r[0]);
 		}
-
 		else
 		{
-			mpz_mod(r_tmp, r[i-2].get_mpz_t() ,r[i-1].get_mpz_t());
+			mpz_mod(r_tmp, r[i-2].get_mpz_t(), r[i-1].get_mpz_t());
 			mpz_class r_tmp2(r_tmp);
 			r.push_back(r_tmp2);
-			diviseur = ((r[i-2]-r[i])/r[i-1]);
+			diviseur = ((r[i-2] - r[i]) / r[i-1]);
 		}
 
 		tmp = r[i];
 		i++;
 	} while (tmp > 1);
 
-	for (i = r.size()-2;  i >= 0; i--)
+	for (i = r.size() - 2;  i >= 0; i--)
 	{
-		if (i == (signed) r.size()- 2)
+		if (i == (signed) r.size() - 2)
 		{
-			tmp = (r[i-2]*diviseur+1)/r[i-1]; // sans doute prob ici, old: d[i-2]
+			tmp = (r[i-2] * diviseur+1) / r[i-1];
+			// sans doute prob ici, old: d[i-2]
 			x.push_back(tmp);
 		}
 
@@ -126,27 +123,28 @@ void FenPrincipale::f_cle()
 		}
 
 		i2++;
-	 }
+	}
 
 	int taille = r.size();
 	d = x[taille-2];
 
-	if ( (x[taille-3]*c)-(d*e) != 1 && (x[taille-3]*c)-(d*e) != -1 )
+	if ((x[taille-3]*c)-(d*e) != 1 && (x[taille-3]*c)-(d*e) != -1)
 	{
-		affiche_cleN->insertPlainText("probleme : d normalement incorrecte ");
+		this->affiche_cleN->insertPlainText("probleme : d normalement"
+						    " incorrecte ");
 	}
 
 	else
 	{
 		if (alt1 == -1)
 			d = c - d;
-		affiche_cleD->insertPlainText(d.get_str().data());
+		this->affiche_cleD->insertPlainText(d.get_str().data());
 	}
 }
 
 
 void FenPrincipale::creat_cle_show()
 {
-	barreEtat->removeWidget(creat_cle);
-	barreEtat->showMessage(tr("Les cles ont été généré"), 3500);
+	this->barreEtat->removeWidget(creat_cle);
+	this->barreEtat->showMessage(tr("Les cles ont été généré"), 3500);
 }

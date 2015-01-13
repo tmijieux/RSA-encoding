@@ -38,6 +38,7 @@ void FenPrincipale::f_decrypter()
 				                    .substr(0, espace);
 			message_crypte_entre.erase(0, (espace + 1));
 
+			// décryptage:
 			mpz_powm(message_claire.get_mpz_t(),
 				 message_crypte_caract.get_mpz_t(),
 				 d.get_mpz_t(),
@@ -78,8 +79,8 @@ void FenPrincipale::decrypter_show()
 	this->barreEtat->addWidget(this->decrypt_msg);
 	this->barreEtat->addWidget(this->decrypt_lcd);
 
-	connect(this, SIGNAL(this->finDecrypt()), this,
-		SLOT(this->rmEtatDecrypt()));
+	connect(this, SIGNAL(finDecrypt()), this,
+		SLOT(rmEtatDecrypt()));
 }
 
 void FenPrincipale::decrypt_nb()

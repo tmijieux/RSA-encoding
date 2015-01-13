@@ -28,10 +28,10 @@ class FenPrincipale : public QMainWindow
 {
 	Q_OBJECT
 
-	public:
+public:
 	FenPrincipale();
 
-	public slots:
+public slots:
 	void f_crypter();
 	void f_decrypter();
 	void f_cle();
@@ -49,13 +49,13 @@ class FenPrincipale : public QMainWindow
 	void rmEtatEncrypt();
 	void creat_cle_show();
 
-	signals:
+signals:
 	void decrypt100();
 	void finDecrypt();
 	void encrypt100();
 	void finEncrypt();
 
-	private:
+private:
 	QWidget *zoneCentrale;
 	QLabel *enter_cle_n;
 	QLabel *enter_cle_d;
@@ -75,17 +75,21 @@ class FenPrincipale : public QMainWindow
 	QGridLayout *gbox1;
 	QGridLayout *gbox2;
 	QGridLayout *gbox3;
+	
 	QLineEdit *cle_n;
 	QLineEdit *cle_n2;
 	QLineEdit *cle_d;
 	QLineEdit *cle_e;
+	
 	QTextEdit *message_a_crypter;
 	QTextEdit *message_crypter;
 	QTextEdit *message_crypte;
 	QTextEdit *message_decrypte;
+	
 	QTextEdit *affiche_cleN;
 	QTextEdit *affiche_cleE;
 	QTextEdit *affiche_cleD;
+	
 	QStatusBar *barreEtat;
 	QAction *checkEnglish;
 	QAction *checkFrench;
@@ -93,11 +97,14 @@ class FenPrincipale : public QMainWindow
 	QActionGroup *language;
 	QMenu *menuFichier;
 	QMenu *menuLang;
+	
 	QProgressBar *encrypt_lcd;
 	QProgressBar *decrypt_lcd;
+	
 	QLabel *encrypt_msg;
 	QLabel *decrypt_msg;
 	QLabel *creat_cle;
+	
 	unsigned int decrypt_bloc;
 	unsigned int decrypt_mot;
 	unsigned int encrypt_bloc;

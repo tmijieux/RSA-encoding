@@ -1,5 +1,5 @@
 /*
-Ce logiciel fut réaliser par Alexandre GAY 
+  Ce logiciel fut réalisé par Alexandre GAY 
 */
 #include <QApplication>
 #include <QFile>
@@ -10,37 +10,36 @@ Ce logiciel fut réaliser par Alexandre GAY
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+	QApplication app(argc, argv);
 
-    QString language = "fr";
-    QFile file("language");
+	QString language = "fr";
+	QFile file("language");
 
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QTextStream in(&file);
-        language = in.readAll();
-        language = "trRsa-encoding_" + language + ".qm";
-        file.close();
-    } else {
-        if (file.open(QIODevice::WriteOnly| QIODevice::Text))
-        {
-            QTextStream out(&file);
-            out << "fileNotFound";
-        }
-        file.close();
-    }
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QTextStream in(&file);
+		language = in.readAll();
+		language = "trRsa-encoding_" + language + ".qm";
+		file.close();
+	} else {
+		if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+		{
+			QTextStream out(&file);
+			out << "fileNotFound";
+		}
+		file.close();
+	}
     
-    QTranslator translator;
-    translator.load(language);
-    app.installTranslator(&translator);
+	QTranslator translator;
+	translator.load(language);
+	app.installTranslator(&translator);
 
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+	QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    FenPrincipale fenetre;
-    fenetre.show();
+	FenPrincipale fenetre;
+	fenetre.show();
 
-    return app.exec();
+	return app.exec();
 }
-
