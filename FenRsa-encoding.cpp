@@ -6,56 +6,59 @@
 FenPrincipale::FenPrincipale()
 {
 	setWindowTitle("RSA-encoding");
+	this->zoneCentrale = new QWidget;
+	this->zoneCentrale->setFixedSize(540, 560);
+	setCentralWidget(this->zoneCentrale);
 
 	//MENU
-	this->menuFichier = new QMenu;
 	this->menuFichier = menuBar()->addMenu(tr("&Fichier"));
-	this->actionQuitter = new QAction(this);
 	this->actionQuitter = menuFichier->addAction(tr("&Quitter"));
+	
 	connect(this->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 	this->actionQuitter->setShortcut(QKeySequence("Ctrl+Q"));
 
-	this->menuLang = new QMenu;
+	// LANGAGE
 	this->menuLang = this->menuFichier->addMenu(tr("&Langues"));
-
-	this->checkEnglish = new QAction(this);
 	this->checkEnglish = menuLang->addAction("english");
 	this->checkEnglish->setCheckable(true);
 	connect(this->checkEnglish, SIGNAL(triggered()),
 		this, SLOT(englishTranslate()));
 
-	this->checkFrench = new QAction(this);
-	this->checkFrench = menuLang->addAction("francais");
+	this->checkFrench = menuLang->addAction("français");
 	this->checkFrench->setCheckable(true);
 	connect(this->checkFrench, SIGNAL(triggered()),
 		this, SLOT(frenchTranslate()));
-	checkLang();
+	this->checkLang();
+	// FIN LANGAGE
 
-	QMenu *menuAide = menuBar()->addMenu(tr("&Aide"));
-	QAction *aide = menuAide->addAction(tr("aide"));
-	connect(aide, SIGNAL(triggered()),
+	// AIDE
+        this->menuAide = menuBar()->addMenu(tr("&Aide"));
+	this->aide = this->menuAide->addAction(tr("aide"));
+	this->aide->setShortcut(QKeySequence("F1"));
+	connect(this->aide, SIGNAL(triggered()),
 		this, SLOT(aideFen()));
-	aide->setShortcut(QKeySequence("F1"));
-	QAction *aproposSoft = menuAide->addAction(tr("Apropos"));
-	connect(aproposSoft, SIGNAL(triggered()),
-		this, SLOT(aproposSoftware()));
-	QAction *aproposQT = menuAide->addAction(tr("Apropos Qt"));
-	connect(aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-	//QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
 
+        this->aproposSoft = this->menuAide->addAction(tr("Apropos"));
+	connect(this->aproposSoft, SIGNAL(triggered()),
+		this, SLOT(aproposSoftware()));
+	
+	this->aproposQT = menuAide->addAction(tr("Apropos Qt"));
+	connect(this->aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+	//QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
+	// FIN AIDE
+	
 	//BAR_ETAT
 	this->barreEtat = statusBar();
-	fileNotFound();
+	this->fileNotFound();
 	this->actionQuitter->setStatusTip(tr("Quitte le programme"));
-	aproposSoft->setStatusTip(tr("apropos du logiciel"));
-	aproposQT->setStatusTip(tr("apropos de Qt"));
-	aide->setStatusTip(tr("aide du logiciel"));
+	this->aproposSoft->setStatusTip(tr("apropos du logiciel"));
+	this->aproposQT->setStatusTip(tr("apropos de Qt"));
+	this->aide->setStatusTip(tr("aide du logiciel"));
 	this->checkEnglish->setStatusTip(tr("traduit le logiciel en anglais"));
 	this->checkFrench->setStatusTip(tr("le logiciel est en francais"));
 
 	//ZONECENTRALE
-	this->zoneCentrale = new QWidget;
-	this->zoneCentrale->setFixedSize(540, 560);
+
 	this->onglets = new QTabWidget(zoneCentrale);
 
 	this->page1 = new QWidget;
@@ -106,7 +109,6 @@ FenPrincipale::FenPrincipale()
 	connect(this, SIGNAL(decrypt100()), this,
 		SLOT(decrypt_nb()));
 
-
 	this->cle_d = new QLineEdit(this);
 	this->cle_n2 = new QLineEdit(this);
 	this->message_crypte = new QTextEdit(this);
@@ -118,7 +120,7 @@ FenPrincipale::FenPrincipale()
 	this->enter_text = new QLabel(tr("entrez le message crypté : "), this);
 	this->text_crypte = new QLabel(tr("voici le message decrypté : "), this);
 
-	this->gbox2 = new  QGridLayout;
+	this->gbox2 = new QGridLayout;
 	this->gbox2->addWidget(this->enter_cle_d, 0, 0);
 	this->gbox2->addWidget(this->cle_d, 0, 1, 1, 2);
 	this->gbox2->addWidget(this->enter_cle_n, 1, 0);
@@ -148,7 +150,7 @@ FenPrincipale::FenPrincipale()
 	this->cleE = new QLabel(tr("Voici la cle E : "), this);
 	this->cleD = new QLabel(tr("Voici la cle D : "), this);
 
-	this->gbox3 = new  QGridLayout;
+	this->gbox3 = new QGridLayout;
 	this->gbox3->addWidget(this->cle, 0, 1, 1, 2);
 	this->gbox3->addWidget(this->cleN, 1, 0);
 	this->gbox3->addWidget(this->cleE, 2, 0);
@@ -167,7 +169,6 @@ FenPrincipale::FenPrincipale()
 	this->onglets->addTab(this->page2, tr("décrypter"));
 	this->onglets->addTab(this->page3, tr("cle"));
 
-	setCentralWidget(this->zoneCentrale);
 }
 
 void FenPrincipale::aproposSoftware()
@@ -295,8 +296,8 @@ void FenPrincipale::fileNotFound()
 	if (notFound == "fileNotFound")
 	{
 		this->barreEtat->showMessage(tr("fichier language introuvable,"
-					  " la langue par defaut a été généré"),
-				       3500);
+						" la langue par defaut a été"
+						" généré"), 3500);
 		if (file.open(QIODevice::WriteOnly| QIODevice::Text))
 		{
 			QTextStream out(&file);

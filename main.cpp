@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		}
 		file.close();
 	}
-    
+
 	QTranslator translator;
 	translator.load(language);
 	app.installTranslator(&translator);

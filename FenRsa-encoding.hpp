@@ -57,6 +57,7 @@ signals:
 
 private:
 	QWidget *zoneCentrale;
+	
 	QLabel *enter_cle_n;
 	QLabel *enter_cle_d;
 	QLabel *enter_cle_e;
@@ -65,10 +66,13 @@ private:
 	QLabel *cleN;
 	QLabel *cleE;
 	QLabel *cleD;
+	
 	QPushButton *crypter;
 	QPushButton *decrypter;
 	QPushButton *cle;
+	
 	QTabWidget *onglets;
+	
 	QWidget *page1;
 	QWidget *page2;
 	QWidget *page3;
@@ -94,9 +98,15 @@ private:
 	QAction *checkEnglish;
 	QAction *checkFrench;
 	QAction *actionQuitter;
+	QAction *aide;
+	QAction *aproposSoft;
+	QAction *aproposQT;
+	
 	QActionGroup *language;
+	
 	QMenu *menuFichier;
 	QMenu *menuLang;
+	QMenu *menuAide;
 	
 	QProgressBar *encrypt_lcd;
 	QProgressBar *decrypt_lcd;
