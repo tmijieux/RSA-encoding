@@ -1,12 +1,12 @@
-qt4 development headers and libraries have to be
-installed on your computer in order to compile and execute
-the binary.
+DEPS:
+qt4
+qconf
+(automoc4)
 
-automoc4 also.
 
-WARNING: The Makefile was auto-generated and may not work
-with your OS, check the headers directories.
+COMPILE AND INSTALL
+qconf (you may have to run it twice for it to work properly)
+./configure
+make
 
-Compile: make
-Full Install: make install
-Cleaning up: make clean
+make install
