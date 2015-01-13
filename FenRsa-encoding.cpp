@@ -7,7 +7,6 @@ FenPrincipale::FenPrincipale()
 {
 	setWindowTitle("RSA-encoding");
 
-
 	//MENU
 	menuFichier = new QMenu;
 	menuFichier = menuBar()->addMenu(tr("&Fichier"));
@@ -39,7 +38,6 @@ FenPrincipale::FenPrincipale()
 	QAction *aproposQT = menuAide->addAction(tr("Apropos Qt"));
 	connect(aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 	//QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
-
 
 	//BAR_ETAT
 	barreEtat = statusBar();
