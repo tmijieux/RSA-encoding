@@ -8,8 +8,8 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += FenRsa-encoding.hpp
-SOURCES += FenRsa-encoding.cpp main.cpp
+HEADERS += FenPrincipale.hpp
+SOURCES += FenPrincipale.cpp main.cpp
 TRANSLATIONS += trRsa-encoding_en.ts
 LIBS += -L/usr/local/lib -lgmpxx -lgmp
 QT += widgets

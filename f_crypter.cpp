@@ -5,17 +5,15 @@ using namespace std;
 
 void FenPrincipale::f_crypter()
 {
-	std::string message_initial = this->message_a_crypter->toPlainText()
-		                             .toStdString();
-	try
-	{
+	std::string message_initial;
+        message_initial = this->message_a_crypter->toPlainText().toStdString();
+	try {
 		mpz_class message_crypte1;
 		mpz_class e(cle_e->text().toStdString());
 		mpz_class n(cle_n->text().toStdString());
 		mpz_class message_claire;
 
-		if (e == 0 && n == 0)
-		{
+		if (e == 0 && n == 0) {
 			n = N_DEFAULT;
 			e = E_DEFAULT;
 		}
@@ -23,8 +21,7 @@ void FenPrincipale::f_crypter()
 		this->message_crypter->clear();
 		this->encrypt_mot = message_initial.size();
 
-		for (unsigned int i = 0; i < this->encrypt_mot; i++)
-		{
+		for (unsigned int i = 0; i < this->encrypt_mot; ++i) {
 			message_claire = message_initial[i];
 
 			// coeur du cryptage:
@@ -33,23 +30,21 @@ void FenPrincipale::f_crypter()
 				 e.get_mpz_t(),
 				 n.get_mpz_t());
 			
-			this->message_crypter->insertPlainText(message_crypte1
-							 .get_str().data());
+			this->message_crypter->insertPlainText(
+                                message_crypte1.get_str().data());
 			if (i < this->encrypt_mot - 1)
 				this->message_crypter->insertPlainText(" ");
-			emit encrypt100();
+			emit encrypt_100();
 		}
+	} catch (...) {
+		QMessageBox::warning(
+                        this, tr("erreur"),
+                        tr("Un probleme est survenue, "
+                           "vérifiez la clé et que vous avez entrez "
+                           "un texte à crypter !"));
 	}
 
-	catch (...)
-	{
-		QMessageBox::warning(this, tr("erreur"),
-				     tr("Un probleme est survenue,"
-					" vérifiez la clé et que vous avez entrez"
-					" un texte à crypter !"));
-	}
-
-	emit finEncrypt();
+	emit encrypt_end();
 }
 
 void FenPrincipale::crypter_show()

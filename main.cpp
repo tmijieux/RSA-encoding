@@ -6,7 +6,7 @@
 #include <QTextStream>
 #include <QTranslator>
 #include <QTextCodec>
-#include "FenRsa-encoding.hpp"
+#include "FenPrincipale.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -15,15 +15,13 @@ int main(int argc, char *argv[])
 	QString language = "fr";
 	QFile file("language");
 
-	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QTextStream in(&file);
 		language = in.readAll();
 		language = "trRsa-encoding_" + language + ".qm";
 		file.close();
 	} else {
-		if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
+		if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
 			QTextStream out(&file);
 			out << "fileNotFound";
 		}

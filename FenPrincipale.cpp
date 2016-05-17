@@ -1,4 +1,5 @@
-#include "FenRsa-encoding.hpp"
+#include "FenPrincipale.hpp"
+
 #include "f_crypter.cpp"
 #include "f_decrypter.cpp"
 #include "f_cle.cpp"
@@ -13,7 +14,7 @@ FenPrincipale::FenPrincipale()
 	//MENU
 	this->menuFichier = menuBar()->addMenu(tr("&Fichier"));
 	this->actionQuitter = menuFichier->addAction(tr("&Quitter"));
-	
+
 	connect(this->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 	this->actionQuitter->setShortcut(QKeySequence("Ctrl+Q"));
 
@@ -41,12 +42,12 @@ FenPrincipale::FenPrincipale()
         this->aproposSoft = this->menuAide->addAction(tr("Apropos"));
 	connect(this->aproposSoft, SIGNAL(triggered()),
 		this, SLOT(aproposSoftware()));
-	
+
 	this->aproposQT = menuAide->addAction(tr("Apropos Qt"));
 	connect(this->aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 	//QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
 	// FIN AIDE
-	
+
 	//BAR_ETAT
 	this->barreEtat = statusBar();
 	this->fileNotFound();
@@ -61,9 +62,9 @@ FenPrincipale::FenPrincipale()
 
 	this->onglets = new QTabWidget(zoneCentrale);
 
-	this->page1 = new QWidget;
-	this->page2 = new QWidget;
-	this->page3 = new QWidget;
+	this->page1 = new QWidget();
+	this->page2 = new QWidget();
+	this->page3 = new QWidget();
 
 	//Partie crypter
 	this->crypter = new QPushButton(tr("Crypter"), this);
@@ -96,7 +97,7 @@ FenPrincipale::FenPrincipale()
 	this->gbox1->addWidget(this->text_crypte, 3, 0);
 	this->gbox1->addWidget(this->message_crypter, 3, 1, 1, 2);
 	this->gbox1->addWidget(this->crypter, 4, 1, 1, 2);
-	
+
 	//Partie decrypter
 	this->decrypter = new QPushButton(tr("Décrypter"), this);
 	this->decrypter->setFont(QFont("Comic Sans MS", 14));
@@ -104,10 +105,9 @@ FenPrincipale::FenPrincipale()
 
 	connect(this->decrypter, SIGNAL(clicked()), this,
 		SLOT(f_decrypter()));
-	connect(this->decrypter, SIGNAL(released()), this,
-		SLOT(decrypter_show()));
-	connect(this, SIGNAL(decrypt100()), this,
-		SLOT(decrypt_nb()));
+	connect(this->decrypter, SIGNAL(released()),
+                this, SLOT(decrypter_show()));
+	connect(this, SIGNAL(decrypt100()), this, SLOT(decrypt_nb()));
 
 	this->cle_d = new QLineEdit(this);
 	this->cle_n2 = new QLineEdit(this);
@@ -134,7 +134,7 @@ FenPrincipale::FenPrincipale()
 	//Partie generateur de cles
 	this->cle = new QPushButton(tr("generer les cles"), this);
 	this->cle->setFont(QFont("Comic Sans MS", 14));
-	
+
 	connect(this->cle, SIGNAL(clicked()), this, SLOT(f_cle()));
 	connect(this->cle, SIGNAL(released()), this,
 		SLOT(creat_cle_show()));
@@ -158,8 +158,8 @@ FenPrincipale::FenPrincipale()
 	this->gbox3->addWidget(this->affiche_cleN, 1, 1, 2, 2);
 	this->gbox3->addWidget(this->affiche_cleE, 2, 1, 2, 2);
 	this->gbox3->addWidget(this->affiche_cleD, 3, 1, 2, 2);
-	
-	
+
+
 	//Partie Generale assemblage
 	this->page1->setLayout(this->gbox1);
 	this->page2->setLayout(this->gbox2);
@@ -168,33 +168,36 @@ FenPrincipale::FenPrincipale()
 	this->onglets->addTab(this->page1, tr("crypter"));
 	this->onglets->addTab(this->page2, tr("décrypter"));
 	this->onglets->addTab(this->page3, tr("cle"));
-
 }
 
 void FenPrincipale::aproposSoftware()
 {
-	QMessageBox::information(this, tr("Apropos"),
-				 tr(
-     "<p>Ce programme fut réalisé par Alexandre GAY avec le soutien "
-     "d'Armand Comparot, de Thomas Mijieux et de Robin PHILIBERT.</p>"
-     " <p>Les codes sources sont libre et gratuit, vous pouvez les retrouver"
-     " sur le site à l'addresse <a href='http://protecinfo.redheberg.com'>"
-     "protecinfo.redheberg</a> .</p> <p>Vous trouverez sur le site une page "
-     "forum ou vous pourez donner votre avis sur le logiciel.</p> <p>Pour plus "
-     "d'information n'hésitez pas à nous contacter sur le site ou par mail</p>"
-     " <p>Merci d'utiliser notre logiciel.</p>"));
+        const char *msg;
+        msg = "<p>Ce programme fut réalisé par Alexandre GAY avec le "
+                "soutien d'Armand Comparot, de Thomas Mijieux et de Robin "
+                "PHILIBERT.</p><p>Le code source est libre et gratuit, vous "
+                "pouvez le retrouver sur le site à l'adresse "
+                "<a href='http://protecinfo.redheberg.com'>"
+                "protecinfo.redheberg</a> .</p> <p>Vous trouverez sur le "
+                "site une page forum ou vous pourez donner votre avis sur "
+                "le logiciel.</p> <p>Pour plus d'information n'hésitez pas "
+                "à nous contacter sur le site ou par mail</p>"
+                " <p>Merci d'utiliser notre logiciel.</p>";
+	QMessageBox::information(this, tr("Apropos"), tr(msg));
 }
 
 void FenPrincipale::aideFen()
 {
-	QMessageBox::information(this,tr("Aide"), tr(
-    "<p>Pour utiliser ce logiciel il vous suffit de rentrer les clés public"
-    " (e, n) et le message secret à transmetre pour crypter un message et de"
-    " rentrer les clés privé (d, n) et le message crypté pour le décrypter !"
-    "</p> <p>Si vous n'avez pas de clé, vous pouvez faire des tests en "
-    "utilisant comme clé public (0, 0) et comme clé prive (0, 0). Ces clé "
-    "seront automatiquement remplacé par des clés valides.</p> <p>Bonne "
-    "utilisation !</p>"));
+        const char *msg;
+        msg = "<p>Pour utiliser ce logiciel il vous suffit de rentrer la "
+                "clé publique (e, n) et le message secret à transmettre "
+                "pour crypter un message et de rentrer la clé privée (d, n) "
+                "et le message crypté pour le décrypter ! </p> <p>Si vous "
+                "n'avez pas de clé, vous pouvez faire des tests en "
+                "utilisant comme clé public (0, 0) et comme clé prive "
+                "(0, 0). Ces clés seront automatiquement remplacé par "
+                "des clés valides.</p> <p>Bonne utilisation !</p>";
+        QMessageBox::information(this,tr("Aide"), tr(msg));
 }
 
 void FenPrincipale::frenchTranslate()
@@ -211,8 +214,7 @@ void FenPrincipale::frenchTranslate()
 	}
 	file.close();
 
-	if (language != "fr")
-	{
+	if (language != "fr") {
 		if (!file.open(QIODevice::WriteOnly| QIODevice::Text))
 			QMessageBox::critical(this, tr("erreur fichier"),
 					      tr("le fichier language n'a pas"
@@ -293,13 +295,14 @@ void FenPrincipale::fileNotFound()
 	}
 	file.close();
 
-	if (notFound == "fileNotFound")
-	{
-		this->barreEtat->showMessage(tr("fichier language introuvable,"
-						" la langue par defaut a été"
-						" généré"), 3500);
-		if (file.open(QIODevice::WriteOnly| QIODevice::Text))
-		{
+	if (notFound == "fileNotFound") {
+		this->barreEtat->showMessage(
+                        tr("fichier language introuvable,"
+                           " la langue par defaut a été"
+                           " généré"),
+                        3500
+                );
+		if (file.open(QIODevice::WriteOnly| QIODevice::Text)) {
 			QTextStream out(&file);
 			out << "fr";
 		}

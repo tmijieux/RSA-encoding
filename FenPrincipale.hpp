@@ -1,5 +1,5 @@
-#ifndef DEF_FENPRINCIPALE
-#define DEF_FENPRINCIPALE
+#ifndef FENPRINCIPALE_H
+#define FENPRINCIPALE_H
 
 #include <QApplication>
 #include <QWidget>
@@ -50,10 +50,11 @@ public slots:
 	void creat_cle_show();
 
 signals:
-	void decrypt100();
-	void finDecrypt();
-	void encrypt100();
-	void finEncrypt();
+	void decrypt_100();
+	void decrypt_end();
+        
+	void encrypt_100();
+	void encrypt_end();
 
 private:
 	QWidget *zoneCentrale;
@@ -121,5 +122,4 @@ private:
 	unsigned int encrypt_mot;
 };
 
-#endif
-
+#endif //FENPRINCIPALE_H
