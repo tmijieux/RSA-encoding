@@ -1,0 +1,9 @@
+*.exe
+Makefile
+*.log
+*.pri
+*.qc
+configure
+rsa_encode
+*.o
+moc_*.cpp
