@@ -8,10 +8,13 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += FenPrincipale.hpp KeyGenPanel.hpp RSAGenerator.hpp RSAEncoder.hpp
+HEADERS += RSAMainWindow.hpp KeyGenPanel.hpp RSAGenerator.hpp RSAEncoder.hpp
+HEADERS += StatusPanel.hpp EncryptPanel.hpp DecryptPanel.hpp CryptPanel.hpp
+HEADERS += RSADecoder.hpp
 
-SOURCES += FenPrincipale.cpp main.cpp KeyGenPanel.cpp RSAGenerator.cpp
-SOURCES += RSAEncoder.cpp
+SOURCES += RSAMainWindow.cpp main.cpp KeyGenPanel.cpp RSAGenerator.cpp
+SOURCES += RSAEncoder.cpp CryptPanel.cpp EncryptPanel.cpp DecryptPanel.cpp
+SOURCES += StatusPanel.cpp RSADecoder.cpp
 
 TRANSLATIONS += trRsa-encoding_en.ts
 LIBS += -L/usr/local/lib -lgmpxx -lgmp

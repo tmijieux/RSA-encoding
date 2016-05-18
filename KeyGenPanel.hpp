@@ -1,10 +1,14 @@
+#ifndef KEYGENPANEL_H
+#define KEYGENPANEL_H
 
+#include "StatusPanel.hpp"
 #include <QWidget>
 #include <QTextEdit>
 #include <QMainWindow>
 #include <QPushButton>
+#include <QLabel>
 
-class KeyGenPanel : public QWidget
+class KeyGenPanel : public StatusPanel
 {
     Q_OBJECT
     
@@ -12,11 +16,13 @@ private:
     QTextEdit *NkeyText;
     QTextEdit *EkeyText;
     QTextEdit *DkeyText;
-    QPushButton *keygen_pbutton;
+    QPushButton *qbutton;
 
 public:
-    KeyGenPanel(QMainWindow *window);
-    void setNText(const QString &text);
-    void setDText(const QString &text);
-    void setEText(const QString &text);
+    KeyGenPanel(QStatusBar *status_bar);
+                                       
+public slots:
+    void generate_key();
 };
+
+#endif //KEYGENPANEL_H

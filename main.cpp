@@ -6,7 +6,7 @@
 #include <QTextStream>
 #include <QTranslator>
 #include <QTextCodec>
-#include "FenPrincipale.hpp"
+#include "RSAMainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -31,12 +31,14 @@ int main(int argc, char *argv[])
     translator.load(language);
     app.installTranslator(&translator);
 
+    /*
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    */
 
-    FenPrincipale fenetre;
-    fenetre.show();
+    RSAMainWindow window;
+    window.show();
 
     return app.exec();
 }

@@ -7,35 +7,35 @@ using std::vector;
 using std::string;
 using std::min;
 
-RSAEncoder::RSAEncoder(mpz_class &N, mpz_class &E)
+RSAEncoder::RSAEncoder(mpz_class &N_, mpz_class &E_):
+    N(N_), E(E_)
 {
-    this->N = N;
-    this->E = E;
-
-    key_length = mpz_sizeinbase(N.get_mpz_t(), 2);
+    key_bit_length = mpz_sizeinbase(N.get_mpz_t(), 2);
+    key_length = key_bit_length / 8;
+                                                      
+    printf("encoder N key_bit_length = %zu\n", key_bit_length);
+    if (key_bit_length <= CHAR_BIT + 1)
+        throw "key too small";
 }
 
-vector<mpz_class> *RSAEncoder::split_data(std::string &str)
+vector<mpz_class> &RSAEncoder::split_data(
+    std::string &str, vector<mpz_class> &output)
 {
-    size_t s_len = str.length();
-    int n = ceil((double) s_len / key_length);
-    vector<mpz_class> *output = new vector<mpz_class>();
+    size_t s_length = str.length();
+    size_t s_length_cpy = s_length;
+    size_t nread = 0;
     
-    const char *data;
-    data  = str.c_str();
-    for (int i = 0; i < n; ++i) {
+    const char *data = str.c_str();
+    while (nread < s_length) {
         mpz_class m_i;
+        size_t read = min(key_length, s_length_cpy);
         
-        mpz_import(m_i.get_mpz_t(), 1, 1, min(key_length, s_len), 0, 0, data);
-        output->push_back(m_i);
+        mpz_import(m_i.get_mpz_t(), 1, 1, read, 0, 0, data);
+        output.push_back(m_i);
 
-        if ( (ssize_t)(s_len - key_length) < 0) {
-            s_len = 0;
-            // break; we should be going out of the loop now anyway
-        } else {
-            s_len -= key_length;
-        }
-        data += key_length;
+        data += read;
+        nread += read;
+        s_length_cpy -= read;
     }
 
     return output;
@@ -60,15 +60,15 @@ static string trim(string& str)
 
 std::string RSAEncoder::encrypt(string data)
 {
-    vector<mpz_class> *input;
+    vector<mpz_class> input;
     string output = "";
     
-    input = split_data(data);
+    input = split_data(data, input);
     for_each(
-        input->begin(), input->end(),
+        input.begin(), input.end(),
         [&] (mpz_class m) {
             mpz_class c;
-            mpz_powm(
+            mpz_powm_sec(
                 c.get_mpz_t(),
                 m.get_mpz_t(),
                 E.get_mpz_t(),
@@ -77,7 +77,6 @@ std::string RSAEncoder::encrypt(string data)
             output += mpz_to_string(c) + " ";
         }
     );
-    delete input;
 
     return trim(output);
 }

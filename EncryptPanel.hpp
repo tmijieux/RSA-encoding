@@ -1,10 +1,16 @@
-#include <QWidget>
-#include <QTextEdit>
-#include <QMainWindow>
-#include <QPushButton>
+#ifndef ENCRYPTPANEL_H
+#define ENCRYPTPANEL_H
 
-class EncryptPanel : public QWidget
+#include "CryptPanel.hpp"
+
+class EncryptPanel : public CryptPanel
 {
+    Q_OBJECT
 public:
-    EncryptPanel();
+    EncryptPanel(QStatusBar *sb);
+
+public slots:
+    void encrypt();
 };
+
+#endif //ENCRYPTPANEL_H
