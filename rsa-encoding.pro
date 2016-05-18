@@ -8,9 +8,13 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 # Input
-HEADERS += FenPrincipale.hpp
-SOURCES += FenPrincipale.cpp main.cpp
+HEADERS += FenPrincipale.hpp KeyGenPanel.hpp RSAGenerator.hpp RSAEncoder.hpp
+
+SOURCES += FenPrincipale.cpp main.cpp KeyGenPanel.cpp RSAGenerator.cpp
+SOURCES += RSAEncoder.cpp
+
 TRANSLATIONS += trRsa-encoding_en.ts
 LIBS += -L/usr/local/lib -lgmpxx -lgmp
 QT += widgets
-CONFIG += debug
+CONFIG += debug c++11
+QMAKE_CXXFLAGS += -std=c++11

@@ -19,107 +19,102 @@
 #include <QProgressBar>
 #include <iostream>
 #include <string>
-#include <gmpxx.h>
 #include <QFile>
 #include <QTextStream>
 #include <vector>
+#include <gmpxx.h>
+
+#include "KeyGenPanel.hpp"
 
 class FenPrincipale : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	FenPrincipale();
+    FenPrincipale();
 
 public slots:
-	void f_crypter();
-	void f_decrypter();
-	void f_cle();
-	void crypter_show();
-	void decrypter_show();
-	void aproposSoftware();
-	void aideFen();
-	void englishTranslate();
-	void frenchTranslate();
-	void checkLang();
-	void fileNotFound();
-	void decrypt_nb();
-	void rmEtatDecrypt();
-	void encrypt_nb();
-	void rmEtatEncrypt();
-	void creat_cle_show();
+    void f_crypter();
+    void f_decrypter();
+    void f_cle();
 
+    void aproposSoftware();
+    void aideFen();
+    
+    void englishTranslate();
+    void frenchTranslate();
+    void checkLang();
+    
+    void fileNotFound();
+    
+    void add_encrypt_status();
+    void remove_encrypt_status();
+    
+    void add_decrypt_status();
+    void remove_decrypt_status();
+
+    void add_keygen_status();
+    void remove_keygen_status();
+    
 signals:
-	void decrypt_100();
-	void decrypt_end();
-
-	void encrypt_100();
-	void encrypt_end();
+    void encrypt_end();
+    void decrypt_end();
+    void keygen_end();
 
 private:
-        void setup_menu();
-        void setup_status_bar();
-        QWidget *setup_decrypt_panel();
-        QWidget *setup_encrypt_panel();
-        QWidget *setup_keygen_panel();
-        void setup_global_layout(QWidget *p1, QWidget *p2, QWidget *p3);
+    void setup_menu();
+    void setup_status_bar();
+    QWidget *setup_decrypt_panel();
+    QWidget *setup_encrypt_panel();
+    QWidget *setup_keygen_panel();
+    void setup_global_layout(QWidget *p1, QWidget *p2, QWidget *p3);
 
-	QWidget *zoneCentrale;
+    KeyGenPanel keyGenPanel;
+    
+    QWidget *zoneCentrale;
 
-	QLabel *enter_cle_n;
-	QLabel *enter_cle_d;
-	QLabel *enter_cle_e;
-	QLabel *enter_text;
-	QLabel *text_crypte;
-	QLabel *cleN;
-	QLabel *cleE;
-	QLabel *cleD;
+    QLabel *enter_cle_n;
+    QLabel *enter_cle_d;
+    QLabel *enter_cle_e;
+    QLabel *enter_text;
+    QLabel *text_crypte;
 
-	QPushButton *crypt_pbutton;
-	QPushButton *decrypt_pbutton;
-	QPushButton *keygen_pbutton;
+    QPushButton *encrypt_pbutton;
+    QPushButton *decrypt_pbutton;
 
-	QTabWidget *onglets;
 
-	QLineEdit *cle_n;
-	QLineEdit *cle_n2;
-	QLineEdit *cle_d;
-	QLineEdit *cle_e;
+    QTabWidget *onglets;
 
-	QTextEdit *message_a_crypter;
-	QTextEdit *message_crypter;
-	QTextEdit *message_crypte;
-	QTextEdit *message_decrypte;
+    QLineEdit *cle_n;
+    QLineEdit *cle_n2;
+    QLineEdit *cle_d;
+    QLineEdit *cle_e;
 
-	QTextEdit *affiche_cleN;
-	QTextEdit *affiche_cleE;
-	QTextEdit *affiche_cleD;
+    QTextEdit *message_a_crypter;
+    QTextEdit *message_crypter;
+    QTextEdit *message_crypte;
+    QTextEdit *message_decrypte;
 
-	QStatusBar *status_bar;
-	QAction *checkEnglish;
-	QAction *checkFrench;
-	QAction *actionQuitter;
-	QAction *aide;
-	QAction *aproposSoft;
-	QAction *aproposQT;
+    QStatusBar *status_bar;
+    QAction *checkEnglish;
+    QAction *checkFrench;
+    QAction *actionQuitter;
+    QAction *aide;
+    QAction *aproposSoft;
+    QAction *aproposQT;
 
-	QActionGroup *language;
+    QActionGroup *language;
 
-	QMenu *menuFichier;
-	QMenu *menuLang;
-	QMenu *menuAide;
+    QMenu *menuFichier;
+    QMenu *menuLang;
+    QMenu *menuAide;
 
-	QProgressBar *encrypt_lcd;
-	QProgressBar *decrypt_lcd;
+    QLabel *encrypt_status_label;
+    QLabel *decrypt_status_label;
+    QLabel *keygen_status_label;
 
-	QLabel *encrypt_msg;
-	QLabel *decrypt_msg;
-	QLabel *creat_cle;
-
-	unsigned int decrypt_bloc;
-	unsigned int decrypt_mot;
-	unsigned int encrypt_bloc;
-	unsigned int encrypt_mot;
+    unsigned int decrypt_mot;
+    unsigned int encrypt_mot;
 };
 
 #endif //FENPRINCIPALE_H
