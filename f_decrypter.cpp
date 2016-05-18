@@ -68,11 +68,11 @@ void FenPrincipale::decrypter_show()
 	this->decrypt_lcd->setGeometry(200, 0, 150, 18);
 	this->decrypt_lcd->setValue(0);
 
-	this->barreEtat->addWidget(this->decrypt_msg);
-	this->barreEtat->addWidget(this->decrypt_lcd);
+	status_bar->addWidget(this->decrypt_msg);
+	status_bar->addWidget(this->decrypt_lcd);
 
-	connect(this, SIGNAL(finDecrypt()), this,
-		SLOT(rmEtatDecrypt()));
+	connect(this, SIGNAL(  finDecrypt()     ),
+                this, SLOT  (  rmEtatDecrypt()) );
 }
 
 void FenPrincipale::decrypt_nb()
@@ -84,8 +84,8 @@ void FenPrincipale::decrypt_nb()
 
 void FenPrincipale::rmEtatDecrypt()
 {
-	this->barreEtat->removeWidget(this->decrypt_msg);
-	this->barreEtat->removeWidget(this->decrypt_lcd);
-	this->barreEtat->showMessage(tr("Le message a été décrypté"), 3500);
+	status_bar->removeWidget(this->decrypt_msg);
+	status_bar->removeWidget(this->decrypt_lcd);
+	status_bar->showMessage(tr("Le message a été décrypté"), 3500);
 }
 

@@ -52,13 +52,20 @@ public slots:
 signals:
 	void decrypt_100();
 	void decrypt_end();
-        
+
 	void encrypt_100();
 	void encrypt_end();
 
 private:
+        void setup_menu();
+        void setup_status_bar();
+        QWidget *setup_decrypt_panel();
+        QWidget *setup_encrypt_panel();
+        QWidget *setup_keygen_panel();
+        void setup_global_layout(QWidget *p1, QWidget *p2, QWidget *p3);
+
 	QWidget *zoneCentrale;
-	
+
 	QLabel *enter_cle_n;
 	QLabel *enter_cle_d;
 	QLabel *enter_cle_e;
@@ -67,55 +74,48 @@ private:
 	QLabel *cleN;
 	QLabel *cleE;
 	QLabel *cleD;
-	
-	QPushButton *crypter;
-	QPushButton *decrypter;
-	QPushButton *cle;
-	
+
+	QPushButton *crypt_pbutton;
+	QPushButton *decrypt_pbutton;
+	QPushButton *keygen_pbutton;
+
 	QTabWidget *onglets;
-	
-	QWidget *page1;
-	QWidget *page2;
-	QWidget *page3;
-	QGridLayout *gbox1;
-	QGridLayout *gbox2;
-	QGridLayout *gbox3;
-	
+
 	QLineEdit *cle_n;
 	QLineEdit *cle_n2;
 	QLineEdit *cle_d;
 	QLineEdit *cle_e;
-	
+
 	QTextEdit *message_a_crypter;
 	QTextEdit *message_crypter;
 	QTextEdit *message_crypte;
 	QTextEdit *message_decrypte;
-	
+
 	QTextEdit *affiche_cleN;
 	QTextEdit *affiche_cleE;
 	QTextEdit *affiche_cleD;
-	
-	QStatusBar *barreEtat;
+
+	QStatusBar *status_bar;
 	QAction *checkEnglish;
 	QAction *checkFrench;
 	QAction *actionQuitter;
 	QAction *aide;
 	QAction *aproposSoft;
 	QAction *aproposQT;
-	
+
 	QActionGroup *language;
-	
+
 	QMenu *menuFichier;
 	QMenu *menuLang;
 	QMenu *menuAide;
-	
+
 	QProgressBar *encrypt_lcd;
 	QProgressBar *decrypt_lcd;
-	
+
 	QLabel *encrypt_msg;
 	QLabel *decrypt_msg;
 	QLabel *creat_cle;
-	
+
 	unsigned int decrypt_bloc;
 	unsigned int decrypt_mot;
 	unsigned int encrypt_bloc;

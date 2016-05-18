@@ -4,18 +4,16 @@
 #include "f_decrypter.cpp"
 #include "f_cle.cpp"
 
-FenPrincipale::FenPrincipale()
-{
-	setWindowTitle("RSA-encoding");
-	this->zoneCentrale = new QWidget;
-	this->zoneCentrale->setFixedSize(540, 560);
-	setCentralWidget(this->zoneCentrale);
 
+void FenPrincipale::setup_menu()
+{
 	//MENU
 	this->menuFichier = menuBar()->addMenu(tr("&Fichier"));
 	this->actionQuitter = menuFichier->addAction(tr("&Quitter"));
 
-	connect(this->actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+	connect(this->actionQuitter, SIGNAL(triggered()),
+                qApp,                SLOT(quit())
+        );
 	this->actionQuitter->setShortcut(QKeySequence("Ctrl+Q"));
 
 	// LANGAGE
@@ -23,12 +21,12 @@ FenPrincipale::FenPrincipale()
 	this->checkEnglish = menuLang->addAction("english");
 	this->checkEnglish->setCheckable(true);
 	connect(this->checkEnglish, SIGNAL(triggered()),
-		this, SLOT(englishTranslate()));
+		this,               SLOT(englishTranslate()));
 
 	this->checkFrench = menuLang->addAction("français");
 	this->checkFrench->setCheckable(true);
 	connect(this->checkFrench, SIGNAL(triggered()),
-		this, SLOT(frenchTranslate()));
+		this,              SLOT(frenchTranslate()));
 	this->checkLang();
 	// FIN LANGAGE
 
@@ -37,7 +35,7 @@ FenPrincipale::FenPrincipale()
 	this->aide = this->menuAide->addAction(tr("aide"));
 	this->aide->setShortcut(QKeySequence("F1"));
 	connect(this->aide, SIGNAL(triggered()),
-		this, SLOT(aideFen()));
+		this,       SLOT(aideFen()));
 
         this->aproposSoft = this->menuAide->addAction(tr("Apropos"));
 	connect(this->aproposSoft, SIGNAL(triggered()),
@@ -45,69 +43,29 @@ FenPrincipale::FenPrincipale()
 
 	this->aproposQT = menuAide->addAction(tr("Apropos Qt"));
 	connect(this->aproposQT, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-	//QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
+	// QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
 	// FIN AIDE
 
-	//BAR_ETAT
-	this->barreEtat = statusBar();
-	this->fileNotFound();
-	this->actionQuitter->setStatusTip(tr("Quitte le programme"));
-	this->aproposSoft->setStatusTip(tr("apropos du logiciel"));
-	this->aproposQT->setStatusTip(tr("apropos de Qt"));
-	this->aide->setStatusTip(tr("aide du logiciel"));
-	this->checkEnglish->setStatusTip(tr("traduit le logiciel en anglais"));
-	this->checkFrench->setStatusTip(tr("le logiciel est en francais"));
+}
 
-	//ZONECENTRALE
+QWidget *FenPrincipale::setup_decrypt_panel()
+{
+        QWidget *page = new QWidget();
+        QGridLayout *box = new QGridLayout();
+        
+	decrypt_pbutton = new QPushButton(tr("Décrypter"), this);
+	decrypt_pbutton->setFont(QFont("Comic Sans MS", 14));
+	//decrypt_pbutton->move(110, 100);
 
-	this->onglets = new QTabWidget(zoneCentrale);
-
-	this->page1 = new QWidget();
-	this->page2 = new QWidget();
-	this->page3 = new QWidget();
-
-	//Partie crypter
-	this->crypter = new QPushButton(tr("Crypter"), this);
-	this->crypter->setFont(QFont("Comic Sans MS", 14));
-	connect(this->crypter, SIGNAL(released()), this,
-		SLOT(crypter_show()));
-	connect(this->crypter, SIGNAL(clicked()), this,
-		SLOT(f_crypter()));
-	connect(this, SIGNAL(encrypt100()), this, SLOT(encrypt_nb()));
-
-	this->cle_e = new QLineEdit(this);
-	this->cle_n = new QLineEdit(this);
-	this->message_a_crypter = new QTextEdit(this);
-	this->message_crypter = new QTextEdit(this);
-	this->message_crypter->setReadOnly(true);
-
-	this->enter_cle_e = new QLabel(tr("entrez la clé e : "), this);
-	this->enter_cle_n = new QLabel(tr("entrez la clé n : "), this);
-	this->enter_text = new QLabel(tr("entrez le message"
-					 " à crypter : "), this);
-	this->text_crypte = new QLabel(tr("voici le message crypté : "), this);
-
-	this->gbox1 = new  QGridLayout;
-	this->gbox1->addWidget(this->enter_cle_e, 0, 0);
-	this->gbox1->addWidget(this->cle_e, 0, 1, 1, 2);
-	this->gbox1->addWidget(this->enter_cle_n, 1, 0);
-	this->gbox1->addWidget(this->cle_n, 1, 1, 1, 2);
-	this->gbox1->addWidget(this->enter_text, 2, 0);
-	this->gbox1->addWidget(this->message_a_crypter, 2, 1, 1, 2);
-	this->gbox1->addWidget(this->text_crypte, 3, 0);
-	this->gbox1->addWidget(this->message_crypter, 3, 1, 1, 2);
-	this->gbox1->addWidget(this->crypter, 4, 1, 1, 2);
-
-	//Partie decrypter
-	this->decrypter = new QPushButton(tr("Décrypter"), this);
-	this->decrypter->setFont(QFont("Comic Sans MS", 14));
-	//decrypter->move(110, 100);
-
-	connect(this->decrypter, SIGNAL(clicked()), this,
-		SLOT(f_decrypter()));
-	connect(this->decrypter, SIGNAL(released()),
-                this, SLOT(decrypter_show()));
-	connect(this, SIGNAL(decrypt100()), this, SLOT(decrypt_nb()));
+	connect(decrypt_pbutton, SIGNAL(  clicked()       ),
+                this,            SLOT  (  f_decrypter()   )
+        );
+	connect(decrypt_pbutton, SIGNAL( released()        ),
+                this,            SLOT  ( decrypter_show()  )
+        );
+	connect(this, SIGNAL(  decrypt_100()  ),
+                this, SLOT  (  decrypt_nb()   )
+        );
 
 	this->cle_d = new QLineEdit(this);
 	this->cle_n2 = new QLineEdit(this);
@@ -120,24 +78,36 @@ FenPrincipale::FenPrincipale()
 	this->enter_text = new QLabel(tr("entrez le message crypté : "), this);
 	this->text_crypte = new QLabel(tr("voici le message decrypté : "), this);
 
-	this->gbox2 = new QGridLayout;
-	this->gbox2->addWidget(this->enter_cle_d, 0, 0);
-	this->gbox2->addWidget(this->cle_d, 0, 1, 1, 2);
-	this->gbox2->addWidget(this->enter_cle_n, 1, 0);
-	this->gbox2->addWidget(this->cle_n2, 1, 1, 1, 2);
-	this->gbox2->addWidget(this->enter_text, 2, 0);
-	this->gbox2->addWidget(this->message_crypte, 2, 1, 1, 2);
-	this->gbox2->addWidget(this->text_crypte, 3, 0);
-	this->gbox2->addWidget(this->message_decrypte, 3, 1, 1, 2);
-	this->gbox2->addWidget(this->decrypter, 4, 1, 1, 2);
+	box->addWidget(this->enter_cle_d, 0, 0);
+	box->addWidget(this->cle_d, 0, 1, 1, 2);
+	box->addWidget(this->enter_cle_n, 1, 0);
+	box->addWidget(this->cle_n2, 1, 1, 1, 2);
+	box->addWidget(this->enter_text, 2, 0);
+	box->addWidget(this->message_crypte, 2, 1, 1, 2);
+	box->addWidget(this->text_crypte, 3, 0);
+	box->addWidget(this->message_decrypte, 3, 1, 1, 2);
+	box->addWidget(decrypt_pbutton, 4, 1, 1, 2);
 
+        page->setLayout(box);
+        return page;
+}
+
+
+QWidget *FenPrincipale::setup_keygen_panel()
+{
+        QWidget *page = new QWidget();
+        QGridLayout *box = new QGridLayout();
+        
 	//Partie generateur de cles
-	this->cle = new QPushButton(tr("generer les cles"), this);
-	this->cle->setFont(QFont("Comic Sans MS", 14));
+	keygen_pbutton = new QPushButton(tr("générer les clés"), this);
+	keygen_pbutton->setFont(QFont("Comic Sans MS", 14));
 
-	connect(this->cle, SIGNAL(clicked()), this, SLOT(f_cle()));
-	connect(this->cle, SIGNAL(released()), this,
-		SLOT(creat_cle_show()));
+	connect(keygen_pbutton, SIGNAL(  clicked() ),
+                this,           SLOT  (  f_cle()   )
+        );
+	connect(keygen_pbutton, SIGNAL(  released()       ),
+                this,           SLOT  (  creat_cle_show() )
+        );
 
 	this->affiche_cleN = new QTextEdit(this);
 	this->affiche_cleE = new QTextEdit(this);
@@ -150,24 +120,102 @@ FenPrincipale::FenPrincipale()
 	this->cleE = new QLabel(tr("Voici la cle E : "), this);
 	this->cleD = new QLabel(tr("Voici la cle D : "), this);
 
-	this->gbox3 = new QGridLayout;
-	this->gbox3->addWidget(this->cle, 0, 1, 1, 2);
-	this->gbox3->addWidget(this->cleN, 1, 0);
-	this->gbox3->addWidget(this->cleE, 2, 0);
-	this->gbox3->addWidget(this->cleD, 3, 0);
-	this->gbox3->addWidget(this->affiche_cleN, 1, 1, 2, 2);
-	this->gbox3->addWidget(this->affiche_cleE, 2, 1, 2, 2);
-	this->gbox3->addWidget(this->affiche_cleD, 3, 1, 2, 2);
+	box->addWidget(keygen_pbutton, 0, 1, 1, 2);
+	box->addWidget(this->cleN, 1, 0);
+	box->addWidget(this->cleE, 2, 0);
+	box->addWidget(this->cleD, 3, 0);
+	box->addWidget(this->affiche_cleN, 1, 1, 2, 2);
+	box->addWidget(this->affiche_cleE, 2, 1, 2, 2);
+	box->addWidget(this->affiche_cleD, 3, 1, 2, 2);
+        
+        page->setLayout(box);
+        return page;
+        
+}
+
+QWidget *FenPrincipale::setup_encrypt_panel()
+{
+        QWidget *page = new QWidget();
+        QGridLayout *box = new QGridLayout();
+        
+	crypt_pbutton = new QPushButton(tr("Crypter"), this);
+	crypt_pbutton->setFont(QFont("Comic Sans MS", 14));
+        
+	connect(crypt_pbutton, SIGNAL(  released()     ),
+                this,          SLOT  (  crypter_show() )
+        );
+	connect(crypt_pbutton, SIGNAL(  clicked()   ),
+                this,          SLOT  (  f_crypter() )
+        );        
+	connect(this, SIGNAL(  encrypt_100() ),
+                this, SLOT  (  encrypt_nb()  )
+        );
+
+	this->cle_e = new QLineEdit(this);
+	this->cle_n = new QLineEdit(this);
+	this->message_a_crypter = new QTextEdit(this);
+	this->message_crypter = new QTextEdit(this);
+	this->message_crypter->setReadOnly(true);
+
+	this->enter_cle_e = new QLabel(tr("entrez la clé e : "), this);
+	this->enter_cle_n = new QLabel(tr("entrez la clé n : "), this);
+	this->enter_text = new QLabel(
+                tr("entrez le message à crypter : "), this);
+	this->text_crypte = new QLabel(tr("voici le message crypté : "), this);
+
+	box = new QGridLayout();
+	box->addWidget(this->enter_cle_e, 0, 0);
+	box->addWidget(this->cle_e, 0, 1, 1, 2);
+	box->addWidget(this->enter_cle_n, 1, 0);
+	box->addWidget(this->cle_n, 1, 1, 1, 2);
+	box->addWidget(this->enter_text, 2, 0);
+	box->addWidget(this->message_a_crypter, 2, 1, 1, 2);
+	box->addWidget(this->text_crypte, 3, 0);
+	box->addWidget(this->message_crypter, 3, 1, 1, 2);
+	box->addWidget(this->crypt_pbutton, 4, 1, 1, 2);
+
+        page->setLayout(box);
+        return page;
+}
 
 
-	//Partie Generale assemblage
-	this->page1->setLayout(this->gbox1);
-	this->page2->setLayout(this->gbox2);
-	this->page3->setLayout(this->gbox3);
+void FenPrincipale::setup_status_bar()
+{
+	status_bar = statusBar();
+	this->fileNotFound();
+        
+	actionQuitter->setStatusTip(tr("Quitte le programme"));
+	aproposSoft->setStatusTip(tr("apropos du logiciel"));
+	aproposQT->setStatusTip(tr("apropos de Qt"));
+	aide->setStatusTip(tr("aide du logiciel"));
+	checkEnglish->setStatusTip(tr("traduit le logiciel en anglais"));
+	checkFrench->setStatusTip(tr("le logiciel est en francais"));
+}
 
-	this->onglets->addTab(this->page1, tr("crypter"));
-	this->onglets->addTab(this->page2, tr("décrypter"));
-	this->onglets->addTab(this->page3, tr("cle"));
+
+void FenPrincipale::setup_global_layout(QWidget *p1, QWidget *p2, QWidget *p3)
+{
+        onglets = new QTabWidget(zoneCentrale);
+	onglets->addTab(p1, tr("crypter"));
+	onglets->addTab(p2, tr("décrypter"));
+	onglets->addTab(p3, tr("cle"));
+}
+
+FenPrincipale::FenPrincipale()
+{
+	setWindowTitle("RSA-encoding");
+	zoneCentrale = new QWidget();
+	zoneCentrale->setFixedSize(540, 560);
+	setCentralWidget(zoneCentrale);
+
+        setup_menu();
+        setup_status_bar();
+        
+        setup_global_layout(
+                setup_encrypt_panel(),
+                setup_decrypt_panel(),
+                setup_keygen_panel()
+        );
 }
 
 void FenPrincipale::aproposSoftware()
@@ -207,8 +255,7 @@ void FenPrincipale::frenchTranslate()
 
 	QString language;
 	QFile file("language");
-	if (file.open(QFile::ReadOnly))
-	{
+	if (file.open(QFile::ReadOnly)) {
 		QTextStream in(&file);
 		language = in.readAll();
 	}
@@ -219,7 +266,6 @@ void FenPrincipale::frenchTranslate()
 			QMessageBox::critical(this, tr("erreur fichier"),
 					      tr("le fichier language n'a pas"
 						 " pu s'ouvrir en ecriture"));
-
 		QTextStream out(&file);
 		out << "fr";
 		QMessageBox::information(this, "langue",
@@ -296,7 +342,7 @@ void FenPrincipale::fileNotFound()
 	file.close();
 
 	if (notFound == "fileNotFound") {
-		this->barreEtat->showMessage(
+		status_bar->showMessage(
                         tr("fichier language introuvable,"
                            " la langue par defaut a été"
                            " généré"),

@@ -13,3 +13,4 @@ SOURCES += FenPrincipale.cpp main.cpp
 TRANSLATIONS += trRsa-encoding_en.ts
 LIBS += -L/usr/local/lib -lgmpxx -lgmp
 QT += widgets
+CONFIG += debug

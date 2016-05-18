@@ -11,8 +11,7 @@
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
-
-	QString language = "fr";
+	QString language("fr");
 	QFile file("language");
 
 	if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {

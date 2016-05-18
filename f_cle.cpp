@@ -61,13 +61,13 @@ void FenPrincipale::f_cle()
 			mpz_class r_tmp2(r_tmp);
 			r.push_back(r_tmp2);
 			diviseur = ((c-r[0])/e);
-                        
+
 		} else if (i == 1) {
 			mpz_mod(r_tmp, e.get_mpz_t(), r[0].get_mpz_t());
 			mpz_class r_tmp2(r_tmp);
 			r.push_back(r_tmp2);
 			diviseur = ((e-r[1])/r[0]);
-                        
+
 		} else {
 			mpz_mod(r_tmp, r[i-2].get_mpz_t(), r[i-1].get_mpz_t());
 			mpz_class r_tmp2(r_tmp);
@@ -84,16 +84,16 @@ void FenPrincipale::f_cle()
 			tmp = (r[i-2] * diviseur+1) / r[i-1];
 			// sans doute prob ici, old: d[i-2]
 			x.push_back(tmp);
-                        
+
 		} else if (i == 0) {
 			tmp = (x[i2-1]*c+alt1)/e;
 			x.push_back(tmp);
-                        
+
 		} else if (i == 1) {
 			tmp = (x[i2-1]*e+alt1)/r[i-1];
 			x.push_back(tmp);
 			alt1 *= -1;
-                        
+
 		} else {
 			tmp = (x[i2-1]*r[i-2]+alt1)/r[i-1];
 			x.push_back(tmp);
@@ -119,6 +119,6 @@ void FenPrincipale::f_cle()
 
 void FenPrincipale::creat_cle_show()
 {
-	this->barreEtat->removeWidget(creat_cle);
-	this->barreEtat->showMessage(tr("Les cles ont été généré"), 3500);
+	status_bar->removeWidget(creat_cle);
+	status_bar->showMessage(tr("Les cles ont été généré"), 3500);
 }

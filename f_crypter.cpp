@@ -58,11 +58,12 @@ void FenPrincipale::crypter_show()
 	this->encrypt_lcd->setGeometry(200, 0, 150, 18);
 	this->encrypt_lcd->setValue(0);
 
-	this->barreEtat->addWidget(this->encrypt_msg);
-	this->barreEtat->addWidget(this->encrypt_lcd);
+	status_bar->addWidget(this->encrypt_msg);
+	status_bar->addWidget(this->encrypt_lcd);
 
-	connect(this, SIGNAL(finEncrypt()), this,
-		SLOT(rmEtatEncrypt()));
+	connect(this, SIGNAL(  finEncrypt()    ),
+                this, SLOT  (  rmEtatEncrypt() )
+        );
 }
 
 void FenPrincipale::encrypt_nb()
@@ -74,7 +75,7 @@ void FenPrincipale::encrypt_nb()
 
 void FenPrincipale::rmEtatEncrypt()
 {
-	this->barreEtat->removeWidget(this->encrypt_msg);
-	this->barreEtat->removeWidget(this->encrypt_lcd);
-	this->barreEtat->showMessage(tr("Le message a été crypté"), 3500);
+	status_bar->removeWidget(this->encrypt_msg);
+	status_bar->removeWidget(this->encrypt_lcd);
+	status_bar->showMessage(tr("Le message a été crypté"), 3500);
 }
