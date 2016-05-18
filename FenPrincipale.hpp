@@ -70,12 +70,12 @@ private:
     void setup_global_layout(QWidget *p1, QWidget *p2, QWidget *p3);
 
     KeyGenPanel keyGenPanel;
+    EncryptPanel encryptPanel;
+    DecryptPanel decryptPanel;
     
     QWidget *zoneCentrale;
 
-    QLabel *enter_cle_n;
     QLabel *enter_cle_d;
-    QLabel *enter_cle_e;
     QLabel *enter_text;
     QLabel *text_crypte;
 
