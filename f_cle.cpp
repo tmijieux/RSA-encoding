@@ -116,12 +116,16 @@ void FenPrincipale::f_cle()
 
 void FenPrincipale::add_keygen_status()
 {
-    status_bar->removeWidget(keygen_status_label);
-    status_bar->showMessage(tr("Les cles ont été généré"), 3500);
+    keygen_status_label = new QLabel(tr("génération des clés en cours..."));
+    keygen_status_label->setAlignment(Qt::AlignLeft);
+    status_bar->addWidget(keygen_status_label);
+
+    connect(this, SIGNAL(  keygen_end()            ),
+            this, SLOT  (  remove_keygen_status()) );
 }
 
 void FenPrincipale::remove_keygen_status()
 {
     status_bar->removeWidget(keygen_status_label);
-    status_bar->showMessage(tr("Les cles ont été généré"), 3500);
+    status_bar->showMessage(tr("Les clés ont été généré"), 3500);
 }

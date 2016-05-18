@@ -26,11 +26,11 @@ void FenPrincipale::f_decrypter()
 
         this->message_decrypte->clear();
         for (unsigned i = 0; i < this->decrypt_mot ; i++) {
-            
+
             int espace = message_crypte_entre.find(" ");
             message_crypte_caract = message_crypte_entre.substr(0, espace);
             message_crypte_entre.erase(0, (espace + 1));
-            
+
             // décryptage:
             mpz_powm(
                 message_claire.get_mpz_t(),
