@@ -4,6 +4,8 @@
 
 #include "RSAGenerator.hpp"
 
+using std::pair;
+
 KeyGenPanel::KeyGenPanel(QStatusBar *status_bar):
     StatusPanel(status_bar,
                 "Génération des clés en cours...",
@@ -54,7 +56,7 @@ void KeyGenPanel::generate_key()
     emit event_start();
     try {
         pair<mpz_class, mpz_class> pubkey, private_key;
-        RSAGenerator rgen(2048);
+        RSAGenerator rgen(1024);
 
         pubkey = rgen.get_public_key();
         private_key = rgen.get_private_key();
@@ -65,6 +67,11 @@ void KeyGenPanel::generate_key()
 
     } catch (const char *str) {
         puts(str);
+    } catch ( ... ) {
+        QMessageBox::warning(
+            this, tr("erreur"),
+            tr("Un problème est survenue pendant la génération des clés\n")
+        );
     }
 
     emit event_end();
