@@ -9,18 +9,16 @@ StatusPanel::StatusPanel(
     connect(this, SIGNAL( event_end() ),
             this, SLOT  ( remove_status()  ));
 
-    status_label = new QLabel(start_event);
-    status_label->setAlignment(Qt::AlignLeft);
+    this->start_event = start_event;
     this->end_event = end_event;
 }
 
 void StatusPanel::add_status()
 {
-    sbar->addWidget(status_label);
+    sbar->showMessage(start_event);
 }
 
 void StatusPanel::remove_status()
 {
-    sbar->removeWidget(status_label);
     sbar->showMessage(end_event, 3500);
 }

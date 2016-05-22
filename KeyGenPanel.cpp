@@ -1,6 +1,7 @@
 #include "KeyGenPanel.hpp"
 #include <QLabel>
 #include <QGridLayout>
+#include <QMessageBox>
 
 #include "RSAGenerator.hpp"
 

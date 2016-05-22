@@ -13,7 +13,7 @@ public:
     
 protected:
     QStatusBar *sbar;
-    QLabel *status_label;
+    QString start_event;
     QString end_event;
     
 signals:
