@@ -43,6 +43,7 @@ private:
     QAction *_checkFrench;
 
     void SetupMenu();
+    void TranslateTo(QString const &lang);
 
 public:
     Window();

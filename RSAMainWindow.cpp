@@ -7,12 +7,6 @@ void Window::SetupMenu()
     _menuBar = menuBar();
     //MENU
     QMenu *fileMenu = _menuBar->addMenu(_("&Fichier"));
-    QAction *quitAction = fileMenu->addAction(_("&Quitter"));
-
-    connect(quitAction, SIGNAL (  triggered()  ),
-            qApp,        SLOT   (  quit()       ));
-    quitAction->setShortcut(QKeySequence("Ctrl+Q"));
-    quitAction->setStatusTip(_("Quitte le programme"));
 
     // LANGAGE
     QMenu *langMenu = fileMenu->addMenu(_("&Langues"));
@@ -22,13 +16,20 @@ void Window::SetupMenu()
             this,         SLOT   ( TranslateToEnglish() ) );
     _checkEnglish->setStatusTip(_("traduit le logiciel en anglais"));
 
-    _checkFrench = langMenu->addAction("français");
+    _checkFrench = langMenu->addAction("Français");
     _checkFrench->setCheckable(true);
-    connect(_checkFrench,  SIGNAL (  triggered()       ),
-            this,         SLOT   (  TranslateToFrench() ));
+    connect(_checkFrench,  SIGNAL ( triggered()       ),
+            this,          SLOT   ( TranslateToFrench() ));
     _checkFrench->setStatusTip(_("le logiciel est en francais"));
     CheckLang();
     // FIN LANGAGE
+    
+    QAction *quitAction = fileMenu->addAction(_("&Quitter"));
+
+    connect(quitAction, SIGNAL ( triggered()  ),
+            qApp,       SLOT   ( quit()       ));
+    quitAction->setShortcut(QKeySequence("Ctrl+Q"));
+    quitAction->setStatusTip(_("Quitte le programme"));
 
     // AIDE
     QMenu *helpMenu = _menuBar->addMenu(_("&Aide"));
@@ -79,8 +80,9 @@ Window::Window()
 
 void Window::DisplayApropos()
 {
-    const char *msg;
-    msg = "<p>Ce programme fut réalisé par Alexandre GAY avec le "
+    QString msg;
+    msg = _(
+        "<p>Ce programme fut réalisé par Alexandre GAY avec le "
         "soutien d'Armand Comparot, de Thomas Mijieux et de Robin "
         "PHILIBERT.</p><p>Le code source est libre et gratuit, vous "
         "pouvez le retrouver sur le site à l'adresse "
@@ -89,14 +91,15 @@ void Window::DisplayApropos()
         "site une page forum ou vous pourez donner votre avis sur "
         "le logiciel.</p> <p>Pour plus d'information n'hésitez pas "
         "à nous contacter sur le site ou par mail</p>"
-        " <p>Merci d'utiliser notre logiciel.</p>";
-    QMessageBox::information(this, _("À propos"), _(msg));
+        " <p>Merci d'utiliser notre logiciel.</p>");
+    QMessageBox::information(this, _("À propos"), msg);
 }
 
 void Window::DisplayHelp()
 {
-    const char *msg;
-    msg = "<p>Pour utiliser ce logiciel il vous suffit de rentrer la "
+    QString msg;
+    msg = _(
+        "<p>Pour utiliser ce logiciel il vous suffit de rentrer la "
         "clé publique (e, n) et le message secret à transmettre "
         "pour crypter un message et de rentrer la clé privée (d, n) "
         "et le message crypté pour le décrypter ! </p> <p>Si vous "
@@ -106,11 +109,11 @@ void Window::DisplayHelp()
         "des clés valides.</p> <p>Bonne utilisation !</p>"
         "<p>N'utilisez pas ce logiciel pour des communications réelles. "
         "Il n'a aucune garantie sur le fonctionnement du logiciel et/ou "
-        "la correction des algorithmes</p>";
-    QMessageBox::information(this, _("Aide"), _(msg));
+        "la correction des algorithmes</p>");
+    QMessageBox::information(this, _("Aide"), msg);
 }
 
-void Window::TranslateToFrench()
+void Window::TranslateTo(QString const &lang)
 {
     _checkEnglish->setChecked(false);
     _checkFrench->setChecked(true);
@@ -123,50 +126,30 @@ void Window::TranslateToFrench()
         file.close();
     }
 
-    if (language != "fr") {
+    if (language != lang) {
         if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
             QMessageBox::critical(
                 this, _("erreur fichier"),
                 _("le fichier language n'a pas pu s'ouvrir en écriture"));
         }
         QTextStream out(&file);
-        out << "fr";
+        out << lang;
         QMessageBox::information(
-            this, "langue", "vous devez maintenant redémarrer le programme "
-            "pour que celui ci soit en français");
+            this, _("langue"),
+            _("Vous devez maintenant redémarrer le programme "
+              "pour appliquer la traduction"));
     }
     file.close();
 }
 
 void Window::TranslateToEnglish()
 {
-    _checkFrench->setChecked(false);
-    _checkEnglish->setChecked(true);
+    TranslateTo("en");
+}
 
-    QString language;
-    QFile file("language");
-    if (file.open(QFile::ReadOnly)) {
-        QTextStream in(&file);
-        language = in.readAll();
-        file.close();
-    }
-
-    if (language != "en") {
-        if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
-            QMessageBox::critical(
-                this, _("erreur fichier"),
-                _("le fichier language n'a pas pu s'ouvrir en écriture")
-            );
-        }
-
-        QTextStream out(&file);
-        out << "en";
-        QMessageBox::information(
-            this, "language",
-            "you must now restart the program to have it in english"
-        );
-    }
-    file.close();
+void Window::TranslateToFrench()
+{
+    TranslateTo("fr");
 }
 
 void Window::CheckLang()

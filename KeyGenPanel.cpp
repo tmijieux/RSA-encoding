@@ -8,12 +8,14 @@
 using std::pair;
 using RSA::KeyGenPanel;
 
+#define _(x) tr((x))
+
 KeyGenPanel::KeyGenPanel(QStatusBar *statusBar):
     StatusPanel(statusBar,
-                "Génération des clés en cours...",
-                "Les clés ont été générées")
+                _("Génération des clés en cours..."),
+                _("Les clés ont été générées"))
 {
-    _button = new QPushButton(tr("Générer les clés"), this);
+    _button = new QPushButton(_("Générer les clés"), this);
     _button->setFont(QFont("Comic Sans MS", 14));
 
     connect(_button, SIGNAL( clicked()     ),
@@ -31,17 +33,17 @@ KeyGenPanel::KeyGenPanel(QStatusBar *statusBar):
     _textE = new QTextEdit(this);
     _textE->setReadOnly(true);
 
-    layout->addWidget(new QLabel(tr("Voici la cle N : "), this), 1, 0);
+    layout->addWidget(new QLabel(_("Voici la clé N : "), this), 1, 0);
     layout->addWidget(_textN, 1, 1, 2, 2);
-    layout->addWidget(new QLabel(tr("Voici la cle D : "), this), 2, 0);
+    layout->addWidget(new QLabel(_("Voici la clé D : "), this), 2, 0);
     layout->addWidget(_textD, 2, 1, 2, 2);
-    layout->addWidget(new QLabel(tr("Voici la cle E : "), this), 3, 0);
+    layout->addWidget(new QLabel(_("Voici la clé E : "), this), 3, 0);
     layout->addWidget(_textE, 3, 1, 2, 2);
 
     this->setLayout(layout);
 }
 
-static QString mpz_to_string(mpz_class &c)
+static QString MpzToString(mpz_class &c)
 {
     size_t length = mpz_sizeinbase(c.get_mpz_t(), 10) + 2;
     char *c_str = new char[length];
@@ -62,16 +64,16 @@ void KeyGenPanel::GenerateKey()
         pubkey = rgen.GetPublicKey();
         privateKey = rgen.GetPrivateKey();
 
-        _textN->setPlainText(mpz_to_string(pubkey.first));
-        _textE->setPlainText(mpz_to_string(pubkey.second));
-        _textD->setPlainText(mpz_to_string(privateKey.second));
+        _textN->setPlainText(MpzToString(pubkey.first));
+        _textE->setPlainText(MpzToString(pubkey.second));
+        _textD->setPlainText(MpzToString(privateKey.second));
 
     } catch (const char *str) {
         puts(str);
     } catch ( ... ) {
         QMessageBox::warning(
-            this, tr("erreur"),
-            tr("Un problème est survenue pendant la génération des clés\n")
+            this, _("erreur"),
+            _("Un problème est survenue pendant la génération des clés")
         );
     }
     emit StatusPanel::EventEnded();

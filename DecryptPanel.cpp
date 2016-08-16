@@ -2,17 +2,18 @@
 #include "DecryptPanel.hpp"
 
 using RSA::DecryptPanel;
+#define _(x) tr((x))
 
 DecryptPanel::DecryptPanel(QStatusBar *sb):
     CryptPanel(
         sb,
-        tr("Décryptage en cours ..."),
-        tr("Le message a été décrypté"),
-        tr("Entrez la clé N :"),
-        tr("Entrez la clé D :"),
-        tr("Entrez le message à décrypter :"),
-        tr("Voici le message en clair :"),
-        tr("Décrypter")
+        _("Décryptage en cours ..."),
+        _("Le message a été décrypté"),
+        _("Entrez la clé N :"),
+        _("Entrez la clé D :"),
+        _("Entrez le message à décrypter :"),
+        _("Voici le message en clair :"),
+        _("Décrypter")
     )
 {
     connect(_button, SIGNAL(  clicked() ),
@@ -33,13 +34,13 @@ void DecryptPanel::Decrypt()
                                                   output.size()));
     } catch (...) {
         QMessageBox::warning(
-            this, tr("erreur"),
-            tr("un probleme vient de se produire il se"
-               " peut que ce soit: \n \t - vos clés qui"
-               " sont incorrectes \n \t - votre message"
-               " crypté qui comporte une erreur (vérifier"
-               "  s'il y a un espace avant le premier"
-               " nombre ou apres le dernier, si oui: l'enlever)")
+            this, _("Erreur"),
+            _("un problème vient de se produire il se "
+              "peut que ce soit:\n\t - vos clés qui "
+              "sont incorrectes\n\t - votre message "
+              "crypté qui comporte une erreur (vérifier "
+              "s'il y a un espace avant le premier "
+              "nombre ou aprés le dernier, si oui: l'enlever).")
         );
     }
     emit StatusPanel::EventEnded();

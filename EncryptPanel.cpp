@@ -3,17 +3,18 @@
 
 using RSA::EncryptPanel;
 using std::string;
+#define _(x) tr((x))
 
 EncryptPanel::EncryptPanel(QStatusBar *sb):
     CryptPanel(
         sb,
-        tr("Cryptage en cours ..."),
-        tr("Le message a été crypté"),
-        tr("Entrez la clé N :"),
-        tr("Entrez la clé E :"),
-        tr("Entrez le message à crypter :"),
-        tr("Voici le message décrypté :"),
-        tr("Crypter")
+        _("Cryptage en cours ..."),
+        _("Le message a été crypté"),
+        _("Entrez la clé N :"),
+        _("Entrez la clé E :"),
+        _("Entrez le message à crypter :"),
+        _("Voici le message décrypté :"),
+        _("Crypter")
     )
 {
     connect(_button, SIGNAL(  clicked() ),
@@ -33,10 +34,10 @@ void EncryptPanel::encrypt()
         _msg2Text->setPlainText(QString::fromUtf8(output.data(), output.size()));
 
     } catch (...) {
-        QMessageBox::warning( this, tr("erreur"),
-                              tr("Un probleme est survenu. "
-                                 "Vérifiez la clé et que vous avez entré "
-                                 "un texte à crypter !"));
+        QMessageBox::warning( this, _("Erreur"),
+                              _("Un probleme est survenu. "
+                                "Vérifiez la clé et que vous avez entré "
+                                "un texte à crypter !"));
     }
     emit StatusPanel::EventEnded();
 }

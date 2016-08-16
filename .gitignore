@@ -7,3 +7,4 @@ configure
 rsa_encode
 *.o
 moc_*.cpp
+.qmake.stash
