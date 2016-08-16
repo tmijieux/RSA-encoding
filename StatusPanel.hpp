@@ -1,30 +1,32 @@
-#ifndef STATUSPANEL_H
-#define STATUSPANEL_H
+#ifndef RSA_STATUSPANEL_H
+#define RSA_STATUSPANEL_H
 
 #include <QWidget>
 #include <QStatusBar>
 #include <QLabel>
 
+
+namespace RSA {
+
 class StatusPanel : public QWidget {
     Q_OBJECT
-
 public:
-    StatusPanel(QStatusBar *stbar, QString start_event, QString end_event);
+    StatusPanel(QStatusBar *stbar, QString startEvent, QString endEvent);
     
 protected:
-    QStatusBar *sbar;
-    QString start_event;
-    QString end_event;
+    QStatusBar *_statusBar;
+    QString _startEvent;
+    QString _endEvent;
     
 signals:
-    void event_start();
-    void event_end();
+    void EventStarted();
+    void EventEnded();
 
 protected slots:
-    void add_status();
-    void remove_status();
-
+    void AddStatus();
+    void RemoveStatus();
 };
 
+}; // end namespace RSA
 
-#endif //STATUSPANEL_H
+#endif // RSA_STATUSPANEL_H

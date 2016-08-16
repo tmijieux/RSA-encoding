@@ -1,10 +1,11 @@
-#ifndef ENCRYPTPANEL_H
-#define ENCRYPTPANEL_H
+#ifndef RSA_ENCRYPTPANEL_H
+#define RSA_ENCRYPTPANEL_H
 
 #include "CryptPanel.hpp"
 
-class EncryptPanel : public CryptPanel
-{
+namespace RSA {
+
+class EncryptPanel : public CryptPanel {
     Q_OBJECT
 public:
     EncryptPanel(QStatusBar *sb);
@@ -13,4 +14,7 @@ public slots:
     void encrypt();
 };
 
-#endif //ENCRYPTPANEL_H
+
+}; // end namespace RSA
+
+#endif // RSA_ENCRYPTPANEL_H

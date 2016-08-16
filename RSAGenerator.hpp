@@ -1,5 +1,5 @@
-#ifndef RSAGENERATOR_H
-#define RSAGENERATOR_H
+#ifndef RSA_GENERATOR_H
+#define RSA_GENERATOR_H
 
 #include <gmpxx.h>
 #include <utility>
@@ -45,6 +45,7 @@
  */
 
 
+namespace RSA {
 /**
  * the purpose of this class is to initialize a (possibly static)
  * gmp_randstate_t variable
@@ -59,20 +60,22 @@ public:
 /**
  *  generate key for the RSA Cryptosystem
  */
-class RSAGenerator {
+class Generator {
     static gmp_randstate_t r_state;
     static init_rand_state init_rs;
     mpz_class P, Q, E, D, N, C;
 
 public:
     static const unsigned DEFAULT_KEY_SIZE = 1024;
-    RSAGenerator(unsigned nbits = DEFAULT_KEY_SIZE);
+    Generator(unsigned nbits = DEFAULT_KEY_SIZE);
 
     /** Return (N, E) */
-    std::pair<mpz_class, mpz_class> get_public_key() const;
+    std::pair<mpz_class, mpz_class> GetPublicKey() const;
 
     /** Return (N, D) */
-    std::pair<mpz_class, mpz_class> get_private_key() const;
+    std::pair<mpz_class, mpz_class> GetPrivateKey() const;
 };
 
-#endif //RSAGENERATOR_H
+
+}; // end namespace RSA
+#endif // RSA_GENERATOR_H

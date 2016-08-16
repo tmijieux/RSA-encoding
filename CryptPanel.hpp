@@ -1,5 +1,5 @@
-#ifndef CRYPTPANEL_H
-#define CRYPTPANEL_H
+#ifndef RSA_CRYPTPANEL_H
+#define RSA_CRYPTPANEL_H
 
 #include <QWidget>
 #include <QLineEdit>
@@ -12,28 +12,33 @@
 
 #include "StatusPanel.hpp"
 
-using std::string;
+namespace RSA {
 
 class CryptPanel : public StatusPanel {
 protected:
-    QLabel *key1_label;
-    QLabel *key2_label;
-    QLabel *msg1_label;
-    QLabel *msg2_label;
+    QLabel *_key1Label;
+    QLabel *_key2Label;
+    QLabel *_msg1Label;
+    QLabel *_msg2Label;
 
-    QLineEdit *key1_line;
-    QLineEdit *key2_line;
+    QLineEdit *_key1Line;
+    QLineEdit *_key2Line;
 
-    QTextEdit *msg1_text;
-    QTextEdit *msg2_text;
+    QTextEdit *_msg1Text;
+    QTextEdit *_msg2Text;
 
-    QPushButton *qbutton;
+    QPushButton *_button;
 
 public:
-    CryptPanel(QStatusBar *sb, QString event_start, QString event_end,
-               QString key1, QString key2, QString msg1, QString msg2,
+    CryptPanel(QStatusBar *sb,
+               QString eventStart, QString eventEnd,
+               QString key1, QString key2,
+               QString msg1, QString msg2,
                QString button);
     virtual ~CryptPanel() {}
 };
 
-#endif //CRYPTPANEL_H
+
+}; // end namespace rsa
+
+#endif // RSA_CRYPTPANEL_H

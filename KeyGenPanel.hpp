@@ -1,5 +1,5 @@
-#ifndef KEYGENPANEL_H
-#define KEYGENPANEL_H
+#ifndef RSA_KEYGENPANEL_H
+#define RSA_KEYGENPANEL_H
 
 #include "StatusPanel.hpp"
 #include <QWidget>
@@ -8,21 +8,24 @@
 #include <QPushButton>
 #include <QLabel>
 
+namespace RSA {
+
 class KeyGenPanel : public StatusPanel
 {
     Q_OBJECT
-    
-private:
-    QTextEdit *NkeyText;
-    QTextEdit *EkeyText;
-    QTextEdit *DkeyText;
-    QPushButton *qbutton;
+    private:
+    QTextEdit *_textN;
+    QTextEdit *_textE;
+    QTextEdit *_textD;
+    QPushButton *_button;
 
 public:
-    KeyGenPanel(QStatusBar *status_bar);
+    KeyGenPanel(QStatusBar *statusBar);
                                        
 public slots:
-    void generate_key();
+    void GenerateKey();
 };
 
-#endif //KEYGENPANEL_H
+}; // end namespace RSA
+
+#endif // RSA_KEYGENPANEL_H

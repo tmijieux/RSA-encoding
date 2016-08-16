@@ -1,6 +1,8 @@
 #include "RSADecoder.hpp"
 #include "DecryptPanel.hpp"
 
+using RSA::DecryptPanel;
+
 DecryptPanel::DecryptPanel(QStatusBar *sb):
     CryptPanel(
         sb,
@@ -13,22 +15,22 @@ DecryptPanel::DecryptPanel(QStatusBar *sb):
         tr("Décrypter")
     )
 {
-    connect(qbutton, SIGNAL(  clicked() ),
-            this,    SLOT  (  decrypt() ));
+    connect(_button, SIGNAL(  clicked() ),
+            this,    SLOT  (  Decrypt() ));
 }
 
-void DecryptPanel::decrypt()
+void DecryptPanel::Decrypt()
 {
-    emit event_start();
+    emit StatusPanel::EventStarted();
     try {
-        mpz_class N(key1_line->text().toStdString());
-        mpz_class D(key2_line->text().toStdString());
+        mpz_class N(_key1Line->text().toStdString());
+        mpz_class D(_key2Line->text().toStdString());
 
         RSADecoder decoder(N, D);
-        string input = msg1_text->toPlainText().toStdString();
+        string input = _msg1Text->toPlainText().toStdString();
         string output = decoder.decrypt(input);
-        msg2_text->setPlainText(QString::fromUtf8(output.data(), output.size()));
-
+        _msg2Text->setPlainText(QString::fromUtf8(output.data(),
+                                                  output.size()));
     } catch (...) {
         QMessageBox::warning(
             this, tr("erreur"),
@@ -40,7 +42,5 @@ void DecryptPanel::decrypt()
                " nombre ou apres le dernier, si oui: l'enlever)")
         );
     }
-
-    emit event_end();
+    emit StatusPanel::EventEnded();
 }
-

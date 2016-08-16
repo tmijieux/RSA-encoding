@@ -1,5 +1,5 @@
-#ifndef RSAMAINWINDOW_H
-#define RSAMAINWINDOW_H
+#ifndef RSA_MAINWINDOW_H
+#define RSA_MAINWINDOW_H
 
 #include <QApplication>
 #include <QWidget>
@@ -23,34 +23,39 @@
 #include "EncryptPanel.hpp"
 #include "DecryptPanel.hpp"
 
-class RSAMainWindow : public QMainWindow
+#define _(x) tr((x))
+
+namespace RSA {
+
+class Window : public QMainWindow
 {
     Q_OBJECT
 private:
-    QWidget *central_widget;
+    QWidget *_centralWidget;
+    QStatusBar *_statusBar;
+    QMenuBar *_menuBar;
 
-    QStatusBar *status_bar;
-    QMenuBar *menu_bar;
+    KeyGenPanel *_keyGenPanel;
+    EncryptPanel *_encryptPanel;
+    DecryptPanel *_decryptPanel;
 
-    KeyGenPanel *keyGenPanel;
-    EncryptPanel *encryptPanel;
-    DecryptPanel *decryptPanel;
+    QAction *_checkEnglish;
+    QAction *_checkFrench;
 
-    QAction *checkEnglish;
-    QAction *checkFrench;
-
-    void setup_menu();
+    void SetupMenu();
 
 public:
-    RSAMainWindow();
+    Window();
 
 public slots:
-    void apropos_software();
-    void help_message();
-    void english_translate();
-    void french_translate();
-    void check_lang();
-    void file_not_found();
+    void DisplayApropos();
+    void DisplayHelp();
+    void TranslateToEnglish();
+    void TranslateToFrench();
+    void CheckLang();
+    void CheckLangFile();
 };
 
-#endif //RSAMAINWINDOW_H
+}; // end namespace RSA;
+
+#endif //RSA_MAINWINDOW_H

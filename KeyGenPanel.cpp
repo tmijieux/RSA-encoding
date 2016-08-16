@@ -6,37 +6,37 @@
 #include "RSAGenerator.hpp"
 
 using std::pair;
+using RSA::KeyGenPanel;
 
-KeyGenPanel::KeyGenPanel(QStatusBar *status_bar):
-    StatusPanel(status_bar,
+KeyGenPanel::KeyGenPanel(QStatusBar *statusBar):
+    StatusPanel(statusBar,
                 "Génération des clés en cours...",
                 "Les clés ont été générées")
 {
-    qbutton = new QPushButton(tr("Générer les clés"), this);
-    qbutton->setFont(QFont("Comic Sans MS", 14));
+    _button = new QPushButton(tr("Générer les clés"), this);
+    _button->setFont(QFont("Comic Sans MS", 14));
 
-    connect(qbutton, SIGNAL(  clicked()      ),
-            this,    SLOT  (  generate_key() ));
+    connect(_button, SIGNAL( clicked()     ),
+            this,    SLOT  ( GenerateKey() ));
 
     QGridLayout *layout = new QGridLayout();
-    layout->addWidget(qbutton, 0, 1, 1, 2);
+    layout->addWidget(_button, 0, 1, 1, 2);
+
+    _textN = new QTextEdit(this);
+    _textN->setReadOnly(true);
+
+    _textD = new QTextEdit(this);
+    _textD->setReadOnly(true);
+
+    _textE = new QTextEdit(this);
+    _textE->setReadOnly(true);
 
     layout->addWidget(new QLabel(tr("Voici la cle N : "), this), 1, 0);
+    layout->addWidget(_textN, 1, 1, 2, 2);
     layout->addWidget(new QLabel(tr("Voici la cle D : "), this), 2, 0);
+    layout->addWidget(_textD, 2, 1, 2, 2);
     layout->addWidget(new QLabel(tr("Voici la cle E : "), this), 3, 0);
-
-    NkeyText = new QTextEdit(this);
-    NkeyText->setReadOnly(true);
-
-    DkeyText = new QTextEdit(this);
-    DkeyText->setReadOnly(true);
-
-    EkeyText = new QTextEdit(this);
-    EkeyText->setReadOnly(true);
-
-    layout->addWidget(NkeyText, 1, 1, 2, 2);
-    layout->addWidget(DkeyText, 2, 1, 2, 2);
-    layout->addWidget(EkeyText, 3, 1, 2, 2);
+    layout->addWidget(_textE, 3, 1, 2, 2);
 
     this->setLayout(layout);
 }
@@ -52,19 +52,19 @@ static QString mpz_to_string(mpz_class &c)
     return s;
 }
 
-void KeyGenPanel::generate_key()
+void KeyGenPanel::GenerateKey()
 {
-    emit event_start();
+    emit StatusPanel::EventStarted();
     try {
-        pair<mpz_class, mpz_class> pubkey, private_key;
-        RSAGenerator rgen(1024);
+        pair<mpz_class, mpz_class> pubkey, privateKey;
+        Generator rgen(1024);
 
-        pubkey = rgen.get_public_key();
-        private_key = rgen.get_private_key();
+        pubkey = rgen.GetPublicKey();
+        privateKey = rgen.GetPrivateKey();
 
-        NkeyText->setPlainText(mpz_to_string(pubkey.first));
-        EkeyText->setPlainText(mpz_to_string(pubkey.second));
-        DkeyText->setPlainText(mpz_to_string(private_key.second));
+        _textN->setPlainText(mpz_to_string(pubkey.first));
+        _textE->setPlainText(mpz_to_string(pubkey.second));
+        _textD->setPlainText(mpz_to_string(privateKey.second));
 
     } catch (const char *str) {
         puts(str);
@@ -74,6 +74,5 @@ void KeyGenPanel::generate_key()
             tr("Un problème est survenue pendant la génération des clés\n")
         );
     }
-
-    emit event_end();
+    emit StatusPanel::EventEnded();
 }

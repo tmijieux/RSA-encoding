@@ -6,42 +6,62 @@
 using std::vector;
 using std::string;
 using std::min;
+using RSA::Encoder;
 
-RSAEncoder::RSAEncoder(mpz_class &N_, mpz_class &E_):
-    N(N_), E(E_)
+#ifndef __GNUC__
+# define noexcept
+#endif
+
+namespace RSA {
+class exception : public std::exception {
+    std::string _s;
+public:
+    exception(std::string s): _s(s) {}
+    char const *what() const noexcept { return _s.c_str(); }
+};
+};
+        
+Encoder::Encoder(mpz_class const &N, mpz_class const &E):
+    _N(N), _E(E)
 {
-    key_bit_length = mpz_sizeinbase(N.get_mpz_t(), 2);
-    key_length = key_bit_length / 8;
+    _keyBitLength = mpz_sizeinbase(_N.get_mpz_t(), 2);
+    _keyLength = _keyBitLength / 8;
                                                       
-    printf("encoder N key_bit_length = %zu\n", key_bit_length);
-    if (key_bit_length <= CHAR_BIT + 1)
-        throw "key too small";
+    printf("encoder N key_bit_length = %zu\n", _keyBitLength);
+    if (_keyBitLength <= CHAR_BIT + 1)
+        throw exception("key too small");
 }
 
-vector<mpz_class> &RSAEncoder::split_data(
+/* if the binary representation 'S' of the ToBeEncoded String is bigger
+   than N ( N =~ keySize(N) ) it cannot be decoded properly
+   ( rather the decoding algorithm may output something like "S mod N" )
+   
+   String longer than keyLength are then splitted
+ */
+vector<mpz_class> &Encoder::SplitData(
     std::string &str, vector<mpz_class> &output)
 {
-    size_t s_length = str.length();
-    size_t s_length_cpy = s_length;
+    size_t len = str.length();
+    size_t lenCopy = len;
     size_t nread = 0;
     
     const char *data = str.c_str();
-    while (nread < s_length) {
-        mpz_class m_i;
-        size_t read = min(key_length, s_length_cpy);
+    while (nread < len) {
+        mpz_class i;
+        size_t read = min(_keyLength, lenCopy);
         
-        mpz_import(m_i.get_mpz_t(), 1, 1, read, 0, 0, data);
-        output.push_back(m_i);
+        mpz_import(i.get_mpz_t(), 1, 1, read, 0, 0, data);
+        output.push_back(i);
 
         data += read;
         nread += read;
-        s_length_cpy -= read;
+        lenCopy -= read;
     }
 
     return output;
 }
 
-string RSAEncoder::mpz_to_string(mpz_class &c)
+string Encoder::MpzToString(mpz_class &c)
 {
     size_t length = mpz_sizeinbase(c.get_mpz_t(), 10) + 2;
     char *c_str = new char[length];
@@ -58,12 +78,12 @@ static string trim(string& str)
     return str.substr(first, (last-first+1));
 }
 
-std::string RSAEncoder::encrypt(string data)
+string Encoder::Encrypt(string data)
 {
     vector<mpz_class> input;
     string output = "";
     
-    input = split_data(data, input);
+    input = SplitData(data, input);
     for_each(
         input.begin(), input.end(),
         [&] (mpz_class m) {
@@ -71,14 +91,11 @@ std::string RSAEncoder::encrypt(string data)
             mpz_powm_sec(
                 c.get_mpz_t(),
                 m.get_mpz_t(),
-                E.get_mpz_t(),
-                N.get_mpz_t()
+                _E.get_mpz_t(),
+                _N.get_mpz_t()
             );
-            output += mpz_to_string(c) + " ";
+            output += MpzToString(c) + " ";
         }
     );
-
     return trim(output);
 }
-
-

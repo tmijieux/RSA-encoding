@@ -1,24 +1,23 @@
-#include <StatusPanel.hpp>
+#include "StatusPanel.hpp"
+
+using RSA::StatusPanel;
 
 StatusPanel::StatusPanel(
-    QStatusBar *stbar, QString start_event, QString end_event)
+    QStatusBar *statusBar, QString startEvent, QString endEvent):
+    _statusBar(statusBar), _startEvent(startEvent), _endEvent(endEvent)
 {
-    sbar = stbar;
-    connect(this, SIGNAL( event_start() ),
-            this, SLOT  ( add_status()  ));
-    connect(this, SIGNAL( event_end() ),
-            this, SLOT  ( remove_status()  ));
-
-    this->start_event = start_event;
-    this->end_event = end_event;
+    connect(this, SIGNAL( EventStarted() ),
+            this, SLOT  ( AddStatus() ));
+    connect(this, SIGNAL( EventEnded() ),
+            this, SLOT  ( RemoveStatus() ));
 }
 
-void StatusPanel::add_status()
+void StatusPanel::AddStatus()
 {
-    sbar->showMessage(start_event);
+    _statusBar->showMessage(_startEvent);
 }
 
-void StatusPanel::remove_status()
+void StatusPanel::RemoveStatus()
 {
-    sbar->showMessage(end_event, 3500);
+    _statusBar->showMessage(_endEvent, 3500);
 }

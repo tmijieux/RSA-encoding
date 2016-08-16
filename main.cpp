@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     */
 
-    RSAMainWindow window;
-    window.show();
+    RSA::Window win;
+    win.show();
 
     return app.exec();
 }

@@ -38,9 +38,12 @@
  *
  */
 using namespace std;
+using RSA::Generator;
+using RSA::init_rand_state;
 
-gmp_randstate_t RSAGenerator::r_state;
-init_rand_state RSAGenerator::init_rs(RSAGenerator::r_state);
+
+gmp_randstate_t Generator::r_state;
+init_rand_state Generator::init_rs(Generator::r_state);
 
 double init_rand_state::get_random_seed()
 {
@@ -102,7 +105,7 @@ mpz_class random_prime_number_m(
     return mpz_class(tmp);
 }
 
-RSAGenerator::RSAGenerator(unsigned bit_count):
+Generator::Generator(unsigned bit_count):
     P(0), Q(0), E(0), D(0), N(0), C(0)
 {
     mpz_t tmp;
@@ -122,12 +125,12 @@ RSAGenerator::RSAGenerator(unsigned bit_count):
     mpz_clear(tmp);
 }
 
-pair<mpz_class, mpz_class> RSAGenerator::get_public_key() const
+pair<mpz_class, mpz_class> Generator::GetPublicKey() const
 {
     return make_pair(N, E);
 }
 
-pair<mpz_class, mpz_class> RSAGenerator::get_private_key() const
+pair<mpz_class, mpz_class> Generator::GetPrivateKey() const
 {
     return make_pair(N, D);
 }

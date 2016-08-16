@@ -1,81 +1,83 @@
 #include "RSAMainWindow.hpp"
 
-void RSAMainWindow::setup_menu()
-{
-    menu_bar = menuBar();
-    //MENU
-    QMenu *file_menu = menu_bar->addMenu(tr("&Fichier"));
-    QAction *action_quit = file_menu->addAction(tr("&Quitter"));
+using RSA::Window;
 
-    connect(action_quit, SIGNAL (  triggered()  ),
+void Window::SetupMenu()
+{
+    _menuBar = menuBar();
+    //MENU
+    QMenu *fileMenu = _menuBar->addMenu(_("&Fichier"));
+    QAction *quitAction = fileMenu->addAction(_("&Quitter"));
+
+    connect(quitAction, SIGNAL (  triggered()  ),
             qApp,        SLOT   (  quit()       ));
-    action_quit->setShortcut(QKeySequence("Ctrl+Q"));
-    action_quit->setStatusTip(tr("Quitte le programme"));
+    quitAction->setShortcut(QKeySequence("Ctrl+Q"));
+    quitAction->setStatusTip(_("Quitte le programme"));
 
     // LANGAGE
-    QMenu *lang_menu = file_menu->addMenu(tr("&Langues"));
-    checkEnglish = lang_menu->addAction("english");
-    checkEnglish->setCheckable(true);
-    connect(checkEnglish, SIGNAL ( triggered()        ),
-            this,         SLOT   ( english_translate() ) );
-    checkEnglish->setStatusTip(tr("traduit le logiciel en anglais"));
+    QMenu *langMenu = fileMenu->addMenu(_("&Langues"));
+    _checkEnglish = langMenu->addAction("english");
+    _checkEnglish->setCheckable(true);
+    connect(_checkEnglish, SIGNAL ( triggered()        ),
+            this,         SLOT   ( TranslateToEnglish() ) );
+    _checkEnglish->setStatusTip(_("traduit le logiciel en anglais"));
 
-    checkFrench = lang_menu->addAction("français");
-    checkFrench->setCheckable(true);
-    connect(checkFrench,  SIGNAL (  triggered()       ),
-            this,         SLOT   (  french_translate() ));
-    checkFrench->setStatusTip(tr("le logiciel est en francais"));
-    this->check_lang();
+    _checkFrench = langMenu->addAction("français");
+    _checkFrench->setCheckable(true);
+    connect(_checkFrench,  SIGNAL (  triggered()       ),
+            this,         SLOT   (  TranslateToFrench() ));
+    _checkFrench->setStatusTip(_("le logiciel est en francais"));
+    CheckLang();
     // FIN LANGAGE
 
     // AIDE
-    QMenu *help_menu = menu_bar->addMenu(tr("&Aide"));
-    QAction *help = help_menu->addAction(tr("Aide"));
+    QMenu *helpMenu = _menuBar->addMenu(_("&Aide"));
+    QAction *help = helpMenu->addAction(_("Aide"));
     help->setShortcut(QKeySequence("F1"));
     connect(help, SIGNAL(  triggered() ),
-            this, SLOT  (  help_message()   ) );
-   help->setStatusTip(tr("aide du logiciel"));
-   
+            this, SLOT  (  DisplayHelp()   ) );
+    help->setStatusTip(_("aide du logiciel"));
+
     // APROPOS
-    QAction *aproposSoft = help_menu->addAction(tr("À propos"));
-    connect(aproposSoft, SIGNAL(  triggered()       ),
-            this,        SLOT  (  apropos_software() ));
-    aproposSoft->setStatusTip(tr("à propos du logiciel"));
-    
-    QAction *aproposQT = help_menu->addAction(tr("À propos de Qt"));
+    QAction *aproposSoft = helpMenu->addAction(_("À propos"));
+    connect(aproposSoft, SIGNAL(  triggered()   ),
+            this,        SLOT  (  DisplayApropos() ));
+    aproposSoft->setStatusTip(_("à propos du logiciel"));
+
+    QAction *aproposQT = helpMenu->addAction(_("À propos de Qt"));
     connect(aproposQT, SIGNAL(  triggered() ),
             qApp,      SLOT  (  aboutQt()   ));
-    aproposQT->setStatusTip(tr("à propos de Qt"));
-    
+    aproposQT->setStatusTip(_("à propos de Qt"));
+
     // QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
     // FIN AIDE
 }
 
-RSAMainWindow::RSAMainWindow()
+Window::Window()
 {
     setWindowTitle("RSA-encoding");
- 
-    setup_menu();
-    status_bar = statusBar();
-    this->file_not_found();
-        
-    keyGenPanel = new KeyGenPanel(status_bar);
-    encryptPanel = new EncryptPanel(status_bar);
-    decryptPanel = new DecryptPanel(status_bar);
-    
-    central_widget = new QWidget();
-    central_widget->setFixedSize(540, 560);
 
-    QTabWidget *tabs = new QTabWidget(central_widget);
-    
-    tabs->addTab(encryptPanel,  tr("crypter"));
-    tabs->addTab(decryptPanel, tr("décrypter"));
-    tabs->addTab(keyGenPanel, tr("clé"));
+    SetupMenu();
+    _statusBar = statusBar();
+    CheckLangFile();
 
-    setCentralWidget(central_widget);
+    _keyGenPanel = new KeyGenPanel(_statusBar);
+    _encryptPanel = new EncryptPanel(_statusBar);
+    _decryptPanel = new DecryptPanel(_statusBar);
+
+    _centralWidget = new QWidget();
+    _centralWidget->setFixedSize(540, 560);
+
+    QTabWidget *tabs = new QTabWidget(_centralWidget);
+
+    tabs->addTab(_encryptPanel,  _("crypter"));
+    tabs->addTab(_decryptPanel, _("décrypter"));
+    tabs->addTab(_keyGenPanel, _("clé"));
+
+    setCentralWidget(_centralWidget);
 }
 
-void RSAMainWindow::apropos_software()
+void Window::DisplayApropos()
 {
     const char *msg;
     msg = "<p>Ce programme fut réalisé par Alexandre GAY avec le "
@@ -88,10 +90,10 @@ void RSAMainWindow::apropos_software()
         "le logiciel.</p> <p>Pour plus d'information n'hésitez pas "
         "à nous contacter sur le site ou par mail</p>"
         " <p>Merci d'utiliser notre logiciel.</p>";
-    QMessageBox::information(this, tr("À propos"), tr(msg));
+    QMessageBox::information(this, _("À propos"), _(msg));
 }
 
-void RSAMainWindow::help_message()
+void Window::DisplayHelp()
 {
     const char *msg;
     msg = "<p>Pour utiliser ce logiciel il vous suffit de rentrer la "
@@ -101,14 +103,17 @@ void RSAMainWindow::help_message()
         "n'avez pas de clé, vous pouvez faire des tests en "
         "utilisant comme clé public (0, 0) et comme clé prive "
         "(0, 0). Ces clés seront automatiquement remplacé par "
-        "des clés valides.</p> <p>Bonne utilisation !</p>";
-    QMessageBox::information(this, tr("Aide"), tr(msg));
+        "des clés valides.</p> <p>Bonne utilisation !</p>"
+        "<p>N'utilisez pas ce logiciel pour des communications réelles. "
+        "Il n'a aucune garantie sur le fonctionnement du logiciel et/ou "
+        "la correction des algorithmes</p>";
+    QMessageBox::information(this, _("Aide"), _(msg));
 }
 
-void RSAMainWindow::french_translate()
+void Window::TranslateToFrench()
 {
-    checkEnglish->setChecked(false);
-    checkFrench->setChecked(true);
+    _checkEnglish->setChecked(false);
+    _checkFrench->setChecked(true);
 
     QString language;
     QFile file("language");
@@ -121,8 +126,8 @@ void RSAMainWindow::french_translate()
     if (language != "fr") {
         if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
             QMessageBox::critical(
-                this, tr("erreur fichier"),
-                tr("le fichier language n'a pas pu s'ouvrir en écriture"));
+                this, _("erreur fichier"),
+                _("le fichier language n'a pas pu s'ouvrir en écriture"));
         }
         QTextStream out(&file);
         out << "fr";
@@ -133,10 +138,10 @@ void RSAMainWindow::french_translate()
     file.close();
 }
 
-void RSAMainWindow::english_translate()
+void Window::TranslateToEnglish()
 {
-    checkFrench->setChecked(false);
-    checkEnglish->setChecked(true);
+    _checkFrench->setChecked(false);
+    _checkEnglish->setChecked(true);
 
     QString language;
     QFile file("language");
@@ -149,8 +154,8 @@ void RSAMainWindow::english_translate()
     if (language != "en") {
         if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
             QMessageBox::critical(
-                this, tr("erreur fichier"),
-                tr("le fichier language n'a pas pu s'ouvrir en écriture")
+                this, _("erreur fichier"),
+                _("le fichier language n'a pas pu s'ouvrir en écriture")
             );
         }
 
@@ -164,7 +169,7 @@ void RSAMainWindow::english_translate()
     file.close();
 }
 
-void RSAMainWindow::check_lang()
+void Window::CheckLang()
 {
     QString language;
     QFile file("language");
@@ -175,29 +180,30 @@ void RSAMainWindow::check_lang()
     }
 
     if (language == "en") {
-        checkFrench->setChecked(false);
-        checkEnglish->setChecked(true);
+        _checkFrench->setChecked(false);
+        _checkEnglish->setChecked(true);
     } else {
-        checkFrench->setChecked(true);
-        checkEnglish->setChecked(false);
+        _checkFrench->setChecked(true);
+        _checkEnglish->setChecked(false);
     }
 }
 
-void RSAMainWindow::file_not_found()
+void Window::CheckLangFile()
 {
     QString notFound;
     QFile file("language");
+
     if (file.open(QFile::ReadOnly)) {
         QTextStream in(&file);
         notFound = in.readAll();
         file.close();
     }
-    
+
     if (notFound == "fileNotFound") {
-        status_bar->showMessage(
-            tr("fichier language introuvable,"
-               " la langue par defaut a été"
-               " généré"),
+        _statusBar->showMessage(
+            _("fichier language introuvable,"
+              " la langue par defaut a été"
+              " généré"),
             3500
         );
         if (file.open(QIODevice::WriteOnly| QIODevice::Text)) {

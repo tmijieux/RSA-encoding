@@ -1,20 +1,25 @@
-#ifndef RSAENCODER_H
-#define RSAENCODER_H
+#ifndef RSA_ENCODER_H
+#define RSA_ENCODER_H
 
 #include <gmpxx.h>
 #include <vector>
 
-class RSAEncoder {
-    mpz_class N, E;
-    size_t key_bit_length;
-    size_t key_length;
+namespace RSA {
 
-    std::vector<mpz_class> &split_data(std::string &str, std::vector<mpz_class>&);
-    std::string mpz_to_string(mpz_class &c);
+class Encoder {
+    mpz_class _N, _E;
+    size_t _keyBitLength;
+    size_t _keyLength;
+
+    std::vector<mpz_class> &SplitData(
+        std::string &str, std::vector<mpz_class>&);
+    std::string MpzToString(mpz_class &c);
 
 public:
-    RSAEncoder(mpz_class &N, mpz_class &E);
-    std::string encrypt(std::string data);
+    Encoder(mpz_class const &N, mpz_class const &E);
+    std::string Encrypt(std::string data);
 };
 
-#endif //RSAENCODER_H
+}; // end namespace RSA
+
+#endif //RSA_ENCODER_H
